@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seija: Assumption Inversion"
+  short_description: "Invert assumptions to expose hidden alternatives"
+  default_prompt: "Use $seija-assumption-inversion to challenge this consensus and test the strongest counterexample."

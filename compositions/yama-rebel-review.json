@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "yama-rebel-review",
+  "display_name": "Yama-Rebel Review",
+  "when": "Use when a rule-based judgment is possible but the rule or proposed remedy may rest on an untested assumption.",
+  "members": [
+    {
+      "skill": "eiki-rule-review",
+      "role": "Establish authority, facts, elements, severity, and the initial corrective judgment."
+    },
+    {
+      "skill": "seija-assumption-inversion",
+      "role": "Invert the judgment's load-bearing assumption and construct the strongest counterexample."
+    }
+  ],
+  "sequence": [
+    "Produce an evidence-backed initial rule judgment.",
+    "Invert one assumption behind applicability, severity, or remedy without denying established facts.",
+    "Return the counterexample to the rule review for proportional reconciliation."
+  ],
+  "handoffs": [
+    {
+      "from": "eiki-rule-review",
+      "to": "seija-assumption-inversion",
+      "provides": [
+        "controlling rule",
+        "established facts",
+        "element judgment",
+        "severity rationale",
+        "proposed remedy"
+      ],
+      "expects": [
+        "single inverted assumption",
+        "strongest counterexample",
+        "dependency fallout",
+        "evidence-based reconciliation test"
+      ]
+    }
+  ]
+}

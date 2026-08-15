@@ -1,0 +1,48 @@
+{
+  "skill": "eiki-rule-review",
+  "should_trigger": [
+    {
+      "prompt": "Review this pull request against our security policy and grade any violation proportionally.",
+      "reason": "An explicit rule set must be applied element by element to evidence."
+    },
+    {
+      "prompt": "Does this moderation decision follow the published rules, including exceptions and appeal paths?",
+      "reason": "Authority, applicability, facts, and corrective process all matter."
+    },
+    {
+      "prompt": "Audit this implementation against the protocol specification and separate required from advisory clauses.",
+      "reason": "Specification conformance is a rule-based review with scoped authority."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "Everyone accepts this policy. Challenge the assumption that the policy needs centralized approval.",
+      "preferred_skill": "seija-assumption-inversion"
+    },
+    {
+      "prompt": "Verify whether the newspaper's factual claim is supported by primary sources.",
+      "preferred_skill": "aya-source-investigation"
+    },
+    {
+      "prompt": "Tell me whether this design feels ethical without giving me a rule set or decision standard.",
+      "preferred_skill": null
+    }
+  ],
+  "quality_cases": [
+    {
+      "id": "credential-in-logs",
+      "prompt": "A developer accidentally logged a production API credential for twelve minutes, reported it immediately, and rotated it. Policy forbids exposing secrets but does not prescribe a fixed sanction. Review the violation and remedy.",
+      "must_show": [
+        "controlling rule and applicability",
+        "facts separated from inference and missing evidence",
+        "element-by-element violation judgment",
+        "severity tied to harm intent recurrence and mitigation",
+        "proportionate corrective path and reassessment trigger"
+      ],
+      "must_avoid": [
+        "reducing the person to the violation",
+        "jumping from rule citation to maximum punishment"
+      ]
+    }
+  ]
+}

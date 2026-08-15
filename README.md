@@ -16,8 +16,12 @@ This is an unofficial fan-made project inspired by Touhou Project, created by Te
 | “We need evidence before choosing this approach.” | Marisa / 霧雨魔理沙 | [`marisa-rapid-prototyping`](skills/marisa-rapid-prototyping/) | Borrow, build the smallest experiment, run, learn. |
 | “Our tiny app has become an infrastructure summit.” | Cirno / チルノ | [`cirno-radical-simplification`](skills/cirno-radical-simplification/) | Freeze scope, use three parts, make complexity earn its return. |
 | “Both components work alone; together they fail.” | Yukari / 八雲紫 | [`yukari-boundary-analysis`](skills/yukari-boundary-analysis/) | Map the crossing, trace one traveler, repair the contract. |
+| “Everyone repeats the claim, but where did it come from?” | Aya / 射命丸文 | [`aya-source-investigation`](skills/aya-source-investigation/) | Split the claim, climb to primary evidence, expose circular reporting. |
+| “The artifact works, but nobody knows how.” | Nitori / 河城にとり | [`nitori-reverse-engineering`](skills/nitori-reverse-engineering/) | Preserve, probe one variable, reconstruct, predict. |
+| “Which rule applies, and what remedy is proportionate?” | Eiki / 四季映姫 | [`eiki-rule-review`](skills/eiki-rule-review/) | Establish authority, weigh testimony, judge each element, leave a correction path. |
+| “What if the premise everyone protects is backwards?” | Seija / 鬼人正邪 | [`seija-assumption-inversion`](skills/seija-assumption-inversion/) | Invert one load-bearing assumption and follow the fallout. |
 
-These four form the v0.1 proving ground. More characters arrive only when they add a decision the existing cast cannot.
+The first four established the design language. The second wave fills demonstrated capability gaps: sourcing, mechanism reconstruction, rule-governed judgment, and adversarial reframing. More characters still arrive only when they add a decision the existing cast cannot.
 
 ## Install
 
@@ -38,6 +42,10 @@ Use $reimu-incident-triage to isolate this flaky CI incident.
 Use $marisa-rapid-prototyping to test whether this library can handle our workload.
 Use $cirno-radical-simplification to cut this design down to what the constraints earn.
 Use $yukari-boundary-analysis to trace where this event contract breaks.
+Use $aya-source-investigation to verify whether these articles share one weak source.
+Use $nitori-reverse-engineering to infer this binary format from controlled samples.
+Use $eiki-rule-review to review this action against the governing policy.
+Use $seija-assumption-inversion to reverse the premise holding this design in place.
 ```
 
 Descriptions are also written for implicit routing, with near-miss cases in each skill's `evals/cases.json`.
@@ -70,6 +78,10 @@ Reimu   convergence    █████   tempo          ████    simplifi
 Marisa  exploration    █████   tempo          █████   intervention   █████
 Cirno   simplification █████   tempo          █████   adversarial    ████
 Yukari  abstraction    █████   evidence       ████    convergence    ███
+Aya     evidence       █████   tempo          █████   exploration    ████
+Nitori  exploration    ████    evidence       ████    intervention   ████
+Eiki    evidence       █████   convergence    █████   adversarial    ███
+Seija   adversarial    █████   exploration    █████   abstraction    ████
 ```
 
 Fingerprints help choose contrast pairs and expose accidental overlap; native skill routing still comes from each `SKILL.md` description.
@@ -83,6 +95,9 @@ Use one skill by default, two when they make a real handoff, and at most three f
 | [Hakurei Incident Duo](compositions/hakurei-incident-duo.json) | Marisa → Reimu | Experiment, then converge and recover. |
 | [Border Incident Team](compositions/border-incident-team.json) | Reimu → Yukari | Bound a failure, then inspect its crossing. |
 | [Frozen Boundary Review](compositions/frozen-boundary-review.json) | Cirno → Yukari | Delete machinery, then test the boundaries that remain. |
+| [Tengu–Kappa Investigation](compositions/tengu-kappa-investigation.json) | Aya → Nitori | Verify the external claim, then reconstruct the mechanism. |
+| [Yama–Rebel Review](compositions/yama-rebel-review.json) | Eiki → Seija | Establish the governing rule, then pressure-test its hidden premise. |
+| [Kappa Border Lab](compositions/kappa-border-lab.json) | Yukari → Nitori | Locate the failing crossing, then infer the mechanism behind it. |
 
 ## Quality checks
 
@@ -94,6 +109,17 @@ python3 scripts/validate.py
 
 The validator checks skill frontmatter, package completeness, catalog fingerprints, handoff integrity, JSON evals, reference links, and the three-member party limit. Cross-skill incidents live in [`evals/contrast-incidents.json`](evals/contrast-incidents.json); their purpose is to catch the dreaded outcome where every character becomes the same helpful chatbot.
 
+Then inspect or run the model eval suite:
+
+```bash
+python3 scripts/eval_model.py list --kind all
+python3 scripts/eval_model.py dry-run --kind quality
+# With OPENAI_API_KEY set:
+python3 scripts/eval_model.py run --kind routing
+```
+
+The runner uses structured judgments, keeps API storage disabled, records token usage and resolved model names, and writes inspectable run artifacts under ignored `eval-results/`. See [EVALS.md](EVALS.md) for the rubric and cost-aware commands.
+
 ## Repository map
 
 ```text
@@ -101,7 +127,8 @@ skills/          self-contained runtime packages
 catalog/         authoring metadata and cognitive fingerprints
 compositions/    small parties with explicit handoff contracts
 evals/           same-incident, cross-skill contrast cases
-scripts/         deterministic repository checks
+scripts/         deterministic checks and the model eval runner
+tests/           offline Responses API contract tests
 ```
 
 ## Contributing

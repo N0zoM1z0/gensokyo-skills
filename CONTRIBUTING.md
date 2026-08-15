@@ -22,7 +22,7 @@ Add:
 - one worked example that demonstrates the decision delta;
 - at least three should-trigger cases;
 - at least three near-miss or should-not-trigger cases;
-- one quality case with observable requirements;
+- one quality case with a stable slug `id`, observable requirements, and explicit failure criteria;
 - a catalog entry and at least one cross-skill contrast expectation.
 
 Do not add a composition solely because two characters have a relationship. Define a useful handoff contract and keep the party at three skills or fewer.
@@ -35,5 +35,7 @@ Do not add a composition solely because two characters have a relationship. Defi
 - The failure mode and countercheck are specific to the skill's bias.
 - The package contains no extracted official assets or copied dialogue.
 - `python3 scripts/validate.py` passes.
+- `python3 -m unittest discover -s tests -v` passes.
+- `python3 scripts/eval_model.py dry-run --kind quality --skill <skill-id>` resolves the intended case and request count.
 
-Run a real task with and without the skill before requesting review. For a complex skill, also compare its output against the nearest neighboring character using the same incident.
+Run a real task with and without the skill before requesting review. For a complex skill, also compare its output against the nearest neighboring character using the same incident. When API credentials are available, use the model runner described in [EVALS.md](EVALS.md) and attach the result artifact or summarize its exact model ids, case selection, and failures.

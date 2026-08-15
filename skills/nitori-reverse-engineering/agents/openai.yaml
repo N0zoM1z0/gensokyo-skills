@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nitori: Reverse Engineering"
+  short_description: "Reconstruct mechanisms from observable behavior"
+  default_prompt: "Use $nitori-reverse-engineering to inspect this artifact and build a testable mechanism map."

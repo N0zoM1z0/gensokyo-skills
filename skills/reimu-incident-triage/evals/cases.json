@@ -30,6 +30,7 @@
   ],
   "quality_cases": [
     {
+      "id": "deploy-502s",
       "prompt": "A deploy caused intermittent 502s. The cache warning is noisy and rollback is available.",
       "must_show": [
         "expected versus observed behavior",

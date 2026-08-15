@@ -30,6 +30,7 @@
   ],
   "quality_cases": [
     {
+      "id": "missing-projections",
       "prompt": "Some committed records never reach a downstream projection after rolling deploys.",
       "must_show": [
         "both sides and their owners",

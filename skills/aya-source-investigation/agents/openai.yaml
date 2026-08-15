@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aya: Source Investigation"
+  short_description: "Verify claims through a source-quality pipeline"
+  default_prompt: "Use $aya-source-investigation to verify this claim and produce a source-backed brief."

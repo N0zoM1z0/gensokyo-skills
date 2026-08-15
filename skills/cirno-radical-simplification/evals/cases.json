@@ -30,6 +30,7 @@
   ],
   "quality_cases": [
     {
+      "id": "nightly-report-pipeline",
       "prompt": "Simplify a nightly report pipeline using a broker, cache, scheduler, workers, and object storage.",
       "must_show": [
         "one frozen outcome",

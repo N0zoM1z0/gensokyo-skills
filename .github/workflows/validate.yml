@@ -15,3 +15,11 @@ jobs:
       - uses: actions/checkout@v7
       - name: Validate repository contracts
         run: python3 scripts/validate.py
+      - name: Test model-eval transport and scoring
+        run: python3 -m unittest discover -s tests -v
+      - name: Compile and resolve eval manifests
+        run: |
+          python3 -m py_compile scripts/eval_model.py tests/test_eval_model.py
+          python3 scripts/eval_model.py dry-run --kind routing --limit 1
+          python3 scripts/eval_model.py dry-run --kind quality --limit 1
+          python3 scripts/eval_model.py dry-run --kind contrast --limit 1
