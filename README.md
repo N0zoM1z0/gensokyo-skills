@@ -1,5 +1,7 @@
 # Gensokyo Skills
 
+[![skills.sh](https://skills.sh/b/N0zoM1z0/gensokyo-skills)](https://skills.sh/N0zoM1z0/gensokyo-skills)
+
 > An unofficial Agent Skills library that translates Touhou character motifs into distinct, testable, and composable problem-solving workflows.
 
 **Character is policy. Spell card is operator. Skill is workflow. Incident is eval. Party is composition.**
@@ -25,15 +27,50 @@ The first four established the design language. The second wave fills demonstrat
 
 ## Install
 
-Install one self-contained skill into Codex:
+### Agent Skills CLI
+
+The recommended cross-agent route uses the npm-delivered [`skills` CLI](https://github.com/vercel-labs/skills). The skills themselves are fetched from this GitHub repository; there is no separate `gensokyo-skills` npm package to install. The current CLI requires Node.js 22.20 or newer.
+
+Inspect all available skills without installing:
 
 ```bash
-git clone https://github.com/N0zoM1z0/gensokyo-skills.git
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R gensokyo-skills/skills/reimu-incident-triage "${CODEX_HOME:-$HOME/.codex}/skills/"
+npx skills add N0zoM1z0/gensokyo-skills --list
 ```
 
-Or copy any directory under `skills/` into the skills directory used by an Agent Skills-compatible client. Each runtime package contains its own `SKILL.md`, UI metadata, provenance note, worked example, and eval cases.
+Install interactively to any detected supported agent:
+
+```bash
+npx skills add N0zoM1z0/gensokyo-skills
+```
+
+Install one skill globally for Codex without prompts:
+
+```bash
+npx skills add N0zoM1z0/gensokyo-skills \
+  --skill reimu-incident-triage \
+  --agent codex \
+  --global \
+  --yes
+```
+
+Replace the skill name with another caller, or use `--skill '*'` to install the whole roster. To try one workflow without installing it:
+
+```bash
+npx skills use N0zoM1z0/gensokyo-skills@reimu-incident-triage
+```
+
+### ChatGPT and Codex plugin
+
+The repository root is also a skills-only OpenAI plugin. Add its Git-backed marketplace, then install the bundle:
+
+```bash
+codex plugin marketplace add N0zoM1z0/gensokyo-skills
+codex plugin add gensokyo-skills@gensokyo-skills
+```
+
+Start a new thread after installation so the eight bundled skills are available. Upgrade the marketplace snapshot later with `codex plugin marketplace upgrade gensokyo-skills`.
+
+Each runtime package contains its own `SKILL.md`, UI metadata, provenance note, worked example, and eval cases. Manual copying remains possible, but the commands above preserve source tracking and update workflows.
 
 Invoke explicitly when you want a particular cognitive policy:
 
@@ -123,6 +160,8 @@ The runner uses structured judgments, keeps API storage disabled, records token 
 ## Repository map
 
 ```text
+.codex-plugin/   OpenAI skills-only plugin manifest
+.agents/plugins/ Git-backed Codex plugin marketplace
 skills/          self-contained runtime packages
 catalog/         authoring metadata and cognitive fingerprints
 compositions/    small parties with explicit handoff contracts

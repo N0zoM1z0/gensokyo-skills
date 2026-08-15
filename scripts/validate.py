@@ -13,6 +13,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS_DIR = ROOT / "skills"
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
 FRONTMATTER_RE = re.compile(r"\A---\n(?P<body>.*?)\n---(?:\n|\Z)", re.DOTALL)
 REFERENCE_LINK_RE = re.compile(r"\[[^\]]+\]\((references/[^)#]+)(?:#[^)]+)?\)")
 MARKDOWN_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -193,6 +194,75 @@ def validate_model_config(validation: Validation) -> None:
         validation.check(isinstance(config.get(key), int) and 0 <= config[key] <= 4, f"evals/model-config.json: {key} must be in 0..4")
 
 
+def validate_distribution(skill_ids: set[str], validation: Validation) -> None:
+    manifest_path = ROOT / ".codex-plugin/plugin.json"
+    manifest = validation.load_json(manifest_path)
+    if isinstance(manifest, dict):
+        validation.check(manifest.get("name") == "gensokyo-skills", ".codex-plugin/plugin.json: unexpected plugin name")
+        validation.check(
+            isinstance(manifest.get("version"), str)
+            and bool(SEMVER_RE.fullmatch(manifest["version"])),
+            ".codex-plugin/plugin.json: version must be strict semver",
+        )
+        validation.check(bool(manifest.get("description")), ".codex-plugin/plugin.json: missing description")
+        validation.check(manifest.get("skills") == "./skills/", ".codex-plugin/plugin.json: skills must point to ./skills/")
+        validation.check(manifest.get("license") == "MIT", ".codex-plugin/plugin.json: license must match repository license")
+        validation.check(bool(manifest.get("author", {}).get("name")), ".codex-plugin/plugin.json: missing author.name")
+        interface = manifest.get("interface", {})
+        for field in (
+            "displayName",
+            "shortDescription",
+            "longDescription",
+            "developerName",
+            "category",
+            "capabilities",
+        ):
+            validation.check(bool(interface.get(field)), f".codex-plugin/plugin.json: missing interface.{field}")
+        prompts = interface.get("defaultPrompt", [])
+        validation.check(
+            isinstance(prompts, list)
+            and 0 < len(prompts) <= 3
+            and all(isinstance(prompt, str) and 0 < len(prompt) <= 128 for prompt in prompts),
+            ".codex-plugin/plugin.json: defaultPrompt needs one to three strings of at most 128 characters",
+        )
+        skills_path = manifest_path.parent.parent / str(manifest.get("skills", ""))
+        packaged_ids = {
+            path.parent.name for path in skills_path.glob("*/SKILL.md")
+        } if skills_path.is_dir() else set()
+        validation.check(packaged_ids == skill_ids, ".codex-plugin/plugin.json: packaged skills must match skill directories")
+
+    marketplace_path = ROOT / ".agents/plugins/marketplace.json"
+    marketplace = validation.load_json(marketplace_path)
+    if not isinstance(marketplace, dict):
+        return
+    validation.check(marketplace.get("name") == "gensokyo-skills", ".agents/plugins/marketplace.json: unexpected marketplace name")
+    validation.check(
+        marketplace.get("interface", {}).get("displayName") == "Gensokyo Skills",
+        ".agents/plugins/marketplace.json: unexpected display name",
+    )
+    entries = marketplace.get("plugins", [])
+    validation.check(isinstance(entries, list) and len(entries) == 1, ".agents/plugins/marketplace.json: expected one plugin entry")
+    if not isinstance(entries, list) or len(entries) != 1 or not isinstance(entries[0], dict):
+        return
+    entry = entries[0]
+    validation.check(entry.get("name") == "gensokyo-skills", ".agents/plugins/marketplace.json: plugin name mismatch")
+    validation.check(
+        entry.get("source")
+        == {
+            "source": "url",
+            "url": "https://github.com/N0zoM1z0/gensokyo-skills.git",
+            "ref": "main",
+        },
+        ".agents/plugins/marketplace.json: plugin source must track the public main branch",
+    )
+    validation.check(
+        entry.get("policy")
+        == {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+        ".agents/plugins/marketplace.json: unexpected installation policy",
+    )
+    validation.check(bool(entry.get("category")), ".agents/plugins/marketplace.json: missing category")
+
+
 def validate_catalog(skill_ids: set[str], validation: Validation) -> None:
     path = ROOT / "catalog/skills.json"
     catalog = validation.load_json(path)
@@ -301,6 +371,7 @@ def main() -> int:
         quality_count += skill_quality_count
     validate_catalog(skill_ids, validation)
     validate_model_config(validation)
+    validate_distribution(skill_ids, validation)
     composition_count = validate_compositions(skill_ids, validation)
     contrast_count = validate_contrast(skill_ids, validation)
     validate_markdown_links(validation)

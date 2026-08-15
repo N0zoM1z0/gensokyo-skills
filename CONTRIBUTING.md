@@ -37,5 +37,12 @@ Do not add a composition solely because two characters have a relationship. Defi
 - `python3 scripts/validate.py` passes.
 - `python3 -m unittest discover -s tests -v` passes.
 - `python3 scripts/eval_model.py dry-run --kind quality --skill <skill-id>` resolves the intended case and request count.
+- `npx skills add . --list` discovers the intended public skills.
 
 Run a real task with and without the skill before requesting review. For a complex skill, also compare its output against the nearest neighboring character using the same incident. When API credentials are available, use the model runner described in [EVALS.md](EVALS.md) and attach the result artifact or summarize its exact model ids, case selection, and failures.
+
+## Distribution contract
+
+Keep public skill folders under `skills/<skill-id>/`; this is the canonical layout discovered by the Agent Skills CLI and the OpenAI plugin. When a release changes installed behavior, bump the semantic version in `.codex-plugin/plugin.json`. Keep `.agents/plugins/marketplace.json` pointed at the public `main` branch and let CI verify the CLI discovery path.
+
+Do not add an npm wrapper package solely to ship these files. `npx skills` is the installer; the skill source remains this repository. An npm plugin package is a separate optional distribution channel and should be added only with a real release and ownership plan.
