@@ -1,0 +1,48 @@
+{
+  "skill": "aya-source-investigation",
+  "should_trigger": [
+    {
+      "prompt": "A viral post says this new law bans end-to-end encryption. Check the actual text and tell me what is supported.",
+      "reason": "A current consequential claim requires primary-source verification and calibrated confidence."
+    },
+    {
+      "prompt": "Twenty articles repeat that this model beat doctors. Trace the claim to its source and verify it.",
+      "reason": "Repeated reporting may be circular and stronger than the underlying evidence."
+    },
+    {
+      "prompt": "Did the vendor really announce that this API will shut down next month? Give me links and dates.",
+      "reason": "The user needs a current, source-backed claim with event and publication dates."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "I have packet captures from an undocumented device. Reconstruct its protocol.",
+      "preferred_skill": "nitori-reverse-engineering"
+    },
+    {
+      "prompt": "Review this conduct against the current moderation policy and recommend a remedy.",
+      "preferred_skill": "eiki-rule-review"
+    },
+    {
+      "prompt": "Summarize the paragraph I pasted without looking anything up.",
+      "preferred_skill": null
+    }
+  ],
+  "quality_cases": [
+    {
+      "id": "circular-model-benchmark",
+      "prompt": "Many articles say Vendor X's new model outperforms human experts at contract review. Verify what is actually established and give me a concise source plan.",
+      "must_show": [
+        "atomic claims separated from interpretation",
+        "primary-source route rather than counting articles",
+        "publication date versus evaluation date",
+        "independence and circular-sourcing check",
+        "calibrated verdict and evidence that would change it"
+      ],
+      "must_avoid": [
+        "invented citations or claims of browsing not performed",
+        "treating repeated coverage as independent corroboration"
+      ]
+    }
+  ]
+}

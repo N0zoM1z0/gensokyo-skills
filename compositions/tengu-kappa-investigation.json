@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "tengu-kappa-investigation",
+  "display_name": "Tengu-Kappa Investigation Desk",
+  "when": "Use when a disputed technical claim requires both source provenance and mechanism reconstruction.",
+  "members": [
+    {
+      "skill": "aya-source-investigation",
+      "role": "Acquire the claim, closest sources, dates, versions, and contradictions."
+    },
+    {
+      "skill": "nitori-reverse-engineering",
+      "role": "Test what the artifact actually does and construct a predictive mechanism model."
+    }
+  ],
+  "sequence": [
+    "Decompose the story into verifiable technical claims.",
+    "Collect authoritative documentation, versions, and disputed gaps.",
+    "Probe the artifact only where source evidence remains insufficient.",
+    "Reconcile documented intent with observed mechanism."
+  ],
+  "handoffs": [
+    {
+      "from": "aya-source-investigation",
+      "to": "nitori-reverse-engineering",
+      "provides": [
+        "atomic technical claims",
+        "source and version ledger",
+        "contradictions and unknowns",
+        "evidence that would change the verdict"
+      ],
+      "expects": [
+        "authorized probe plan",
+        "observed mechanism evidence",
+        "predictive replica",
+        "warning label"
+      ]
+    }
+  ]
+}

@@ -111,6 +111,111 @@
         "adversarial": 3,
         "simplification": 2
       }
+    },
+    {
+      "id": "aya-source-investigation",
+      "character": "aya-shameimaru",
+      "capability": "source-investigation",
+      "cognitive_policy": "frame, source, verify, publish",
+      "signature_strength": "Reach the closest evidence and calibrate a timely verdict.",
+      "failure_mode": "Lets novelty, speed, or repeated coverage outrun source quality.",
+      "countercheck": "Trace every important claim to its origin and test source independence.",
+      "operators": [
+        "freeze-the-claim",
+        "reach-the-source",
+        "capture-what-it-proves",
+        "reconcile-the-frame",
+        "publish-qualify-or-hold"
+      ],
+      "fingerprint": {
+        "exploration": 4,
+        "convergence": 3,
+        "tempo": 5,
+        "abstraction": 2,
+        "intervention": 1,
+        "evidence": 5,
+        "adversarial": 3,
+        "simplification": 2
+      }
+    },
+    {
+      "id": "nitori-reverse-engineering",
+      "character": "nitori-kawashiro",
+      "capability": "reverse-engineering",
+      "cognitive_policy": "inspect, map, probe, reproduce",
+      "signature_strength": "Turn black-box observations into a predictive mechanism model.",
+      "failure_mode": "Falls in love with an elegant mechanism or understates probe risk.",
+      "countercheck": "Require a falsifier, novel prediction, authorization, and warning label.",
+      "operators": [
+        "inventory-the-artifact",
+        "follow-flows-and-state",
+        "offer-competing-mechanisms",
+        "probe-one-variable",
+        "make-the-model-run",
+        "expose-the-unknowns"
+      ],
+      "fingerprint": {
+        "exploration": 4,
+        "convergence": 3,
+        "tempo": 3,
+        "abstraction": 3,
+        "intervention": 4,
+        "evidence": 4,
+        "adversarial": 2,
+        "simplification": 3
+      }
+    },
+    {
+      "id": "eiki-rule-review",
+      "character": "eiki-shiki-yamaxanadu",
+      "capability": "rule-review",
+      "cognitive_policy": "scope, establish, judge, correct",
+      "signature_strength": "Apply explicit rules element by element and correct proportionally.",
+      "failure_mode": "Inflates severity or mistakes formal consistency for fairness.",
+      "countercheck": "Test equal treatment, rule clarity, harm, remedy, and appeal.",
+      "operators": [
+        "establish-authority",
+        "separate-the-record",
+        "test-every-element",
+        "grade-severity",
+        "choose-a-proportionate-remedy"
+      ],
+      "fingerprint": {
+        "exploration": 2,
+        "convergence": 5,
+        "tempo": 2,
+        "abstraction": 3,
+        "intervention": 3,
+        "evidence": 5,
+        "adversarial": 3,
+        "simplification": 2
+      }
+    },
+    {
+      "id": "seija-assumption-inversion",
+      "character": "seija-kijin",
+      "capability": "assumption-inversion",
+      "cognitive_policy": "expose, invert, counterexample, reconcile",
+      "signature_strength": "Overturn the premise carrying a consensus and trace what changes.",
+      "failure_mode": "Becomes contrarian for novelty rather than better evidence.",
+      "countercheck": "Preserve the goal, steelman the default, and reconcile against equal evidence.",
+      "operators": [
+        "name-the-default",
+        "invert-one-premise",
+        "construct-the-strongest-counterexample",
+        "trace-what-falls",
+        "reconcile-with-evidence"
+      ],
+      "fingerprint": {
+        "exploration": 5,
+        "convergence": 2,
+        "tempo": 3,
+        "abstraction": 4,
+        "intervention": 3,
+        "evidence": 3,
+        "adversarial": 5,
+        "simplification": 3
+      }
     }
   ]
 }

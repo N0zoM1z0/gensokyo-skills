@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "kappa-border-lab",
+  "display_name": "Kappa Border Lab",
+  "when": "Use when an undocumented mechanism fails specifically as it crosses an interface, version, process, or trust boundary.",
+  "members": [
+    {
+      "skill": "yukari-boundary-analysis",
+      "role": "Locate the last valid and first invalid crossing."
+    },
+    {
+      "skill": "nitori-reverse-engineering",
+      "role": "Probe and reproduce the hidden mechanism at that crossing."
+    }
+  ],
+  "sequence": [
+    "Trace one failed traveler across the system.",
+    "Select the smallest undocumented boundary that contains the transformation.",
+    "Form competing mechanism hypotheses and run a safe differential probe.",
+    "Repair the contract or compatibility model with a novel prediction."
+  ],
+  "handoffs": [
+    {
+      "from": "yukari-boundary-analysis",
+      "to": "nitori-reverse-engineering",
+      "provides": [
+        "two boundary sides and owners",
+        "last valid observation",
+        "first invalid observation",
+        "missing contract behavior"
+      ],
+      "expects": [
+        "competing mechanism hypotheses",
+        "probe evidence",
+        "minimal explanatory replica",
+        "compatibility limits"
+      ]
+    }
+  ]
+}

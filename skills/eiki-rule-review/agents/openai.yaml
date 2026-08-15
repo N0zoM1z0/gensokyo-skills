@@ -1,0 +1,4 @@
+interface:
+  display_name: "Eiki: Rule Review"
+  short_description: "Apply rules with evidence and proportional remedies"
+  default_prompt: "Use $eiki-rule-review to determine which rules apply and recommend a proportionate remedy."

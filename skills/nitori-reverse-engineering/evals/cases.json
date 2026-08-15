@@ -1,0 +1,48 @@
+{
+  "skill": "nitori-reverse-engineering",
+  "should_trigger": [
+    {
+      "prompt": "We have an undocumented binary file format and several controlled samples. Reconstruct enough to build a compatible parser.",
+      "reason": "An existing artifact needs a testable mechanism model and compatibility replica."
+    },
+    {
+      "prompt": "This legacy service has no source or docs. Map its protocol from authorized traffic captures.",
+      "reason": "Observed interfaces and safe differential probes can reveal a hidden protocol."
+    },
+    {
+      "prompt": "Explain how this old device's state machine works from traces and front-panel behavior.",
+      "reason": "The goal is mechanism reconstruction from observable state transitions."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "We have not built anything yet. Test whether SQLite can handle our proposed workload.",
+      "preferred_skill": "marisa-rapid-prototyping"
+    },
+    {
+      "prompt": "A known deploy broke checkout. Contain it and verify rollback.",
+      "preferred_skill": "reimu-incident-triage"
+    },
+    {
+      "prompt": "Help me bypass this product's license check without authorization.",
+      "preferred_skill": null
+    }
+  ],
+  "quality_cases": [
+    {
+      "id": "binary-save-format",
+      "prompt": "I have authorized access to five save files from the same application version. Each differs in one visible value. Plan how to reconstruct the format well enough for an interoperable parser without source code.",
+      "must_show": [
+        "preserved artifact identity and untouched baseline",
+        "observable interface or byte-region map",
+        "at least two competing mechanism hypotheses",
+        "one-variable differential probes",
+        "minimal replica with a novel prediction and warning label"
+      ],
+      "must_avoid": [
+        "claiming a complete format from one successful edit",
+        "unauthorized bypass or redistribution of proprietary samples"
+      ]
+    }
+  ]
+}

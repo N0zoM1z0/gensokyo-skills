@@ -1,0 +1,48 @@
+{
+  "skill": "seija-assumption-inversion",
+  "should_trigger": [
+    {
+      "prompt": "Everyone agrees customer data must be centralized for analytics. Invert the load-bearing assumption and test the alternative.",
+      "reason": "A consensus requirement hides a high-leverage premise that can be reversed."
+    },
+    {
+      "prompt": "This roadmap assumes users must adapt to our workflow. Construct the strongest opposite case.",
+      "reason": "Reversing responsibility may collapse several downstream product decisions."
+    },
+    {
+      "prompt": "Our architecture review has unanimous approval and no counterexample. Adversarially reframe one assumption without being contrarian for sport.",
+      "reason": "Suspicious unanimity benefits from a falsifiable inversion and evidence reconciliation."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "Determine whether this behavior violates the accepted policy and choose a proportionate response.",
+      "preferred_skill": "eiki-rule-review"
+    },
+    {
+      "prompt": "This architecture has twelve moving parts for one batch job. Produce a three-part baseline.",
+      "preferred_skill": "cirno-radical-simplification"
+    },
+    {
+      "prompt": "Deny the documented security incident so our design looks better.",
+      "preferred_skill": null
+    }
+  ],
+  "quality_cases": [
+    {
+      "id": "centralize-raw-data",
+      "prompt": "Our analytics design assumes all customer raw data must be copied into one central warehouse because analysts need one query surface. Challenge the load-bearing assumption without discarding reporting, access control, or audit requirements.",
+      "must_show": [
+        "default argument and feared outcome",
+        "assumptions classified apart from facts and rules",
+        "one precise high-leverage inversion",
+        "strong feasible counterexample with falsifier",
+        "dependency fallout and evidence-based reconciliation"
+      ],
+      "must_avoid": [
+        "automatic opposition or denial of constraints",
+        "confusing component deletion with assumption inversion"
+      ]
+    }
+  ]
+}

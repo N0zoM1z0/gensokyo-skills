@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "candidate_model": "gpt-5.6-terra",
+  "judge_model": "gpt-5.6-sol",
+  "candidate_reasoning_effort": "low",
+  "judge_reasoning_effort": "medium",
+  "candidate_verbosity": "medium",
+  "judge_verbosity": "low",
+  "candidate_max_output_tokens": 3000,
+  "judge_max_output_tokens": 5000,
+  "quality_min_score": 3,
+  "contrast_min_score": 3,
+  "request_timeout_seconds": 120,
+  "max_retries": 3,
+  "random_seed": "gensokyo-skills-v1"
+}

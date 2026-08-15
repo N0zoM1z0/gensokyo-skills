@@ -34,6 +34,8 @@ Delete the character name, spell-card labels, and Gensokyo vocabulary. The remai
 
 Replace the mapped character with another. If the procedure still fits unchanged, the character is only a skin. Reimu must converge and restore; Marisa must experiment and learn; Cirno must strip and stress; Yukari must trace crossings and contracts.
 
+Aya must verify claims through source lineage; Nitori must reconstruct hidden mechanisms through controlled probes; Eiki must apply an authoritative rule with proportional remedy; Seija must invert one load-bearing premise and reconcile the result with evidence.
+
 ### Operator test
 
 Every named operator must change at least one of:
@@ -88,6 +90,20 @@ Run the same incident through multiple skills. Expected differences must concern
 - when the workflow stops.
 
 Different vocabulary with the same plan is a failed contrast.
+
+## Model eval contract
+
+Static validation protects package shape. Model evals protect behavior at three different boundaries:
+
+| Mode | Question | Pass signal |
+| --- | --- | --- |
+| Routing | Does the description select the right skill—or none—without loading its body? | Exact annotated skill id. |
+| Quality | Does loading the skill materially improve the answer? | Blinded skill answer covers every requirement, violates no prohibition, clears the score floor, and beats baseline. |
+| Contrast | Does each skill make a different useful move on the same incident? | Every annotated move appears and all compared decision shapes remain distinct. |
+
+Quality comparisons randomize the A/B label deterministically so the judge never receives a `baseline` or `with_skill` label. Rubrics describe observable behavior rather than exact phrasing. Contrast annotations are commitments: changing a skill may require changing the expected move, but never merely to turn a failing run green.
+
+Model judgments are evidence, not an oracle. Keep the candidate and judge models in the run artifact, inspect failures, rerun suspicious cases, and use human review before changing a routing boundary or admission decision. See [EVALS.md](EVALS.md).
 
 ## Composition contract
 

@@ -9,7 +9,11 @@
         "reimu-incident-triage": "Bound the first abnormal transition and propose the smallest verifiable recovery.",
         "marisa-rapid-prototyping": "Construct a minimal reproduction that varies concurrency and records the decisive signal.",
         "cirno-radical-simplification": "Challenge whether parallelism and its coordination machinery are required for the actual CI goal.",
-        "yukari-boundary-analysis": "Inspect worker-to-database namespace, transaction, timing, and ownership contracts."
+        "yukari-boundary-analysis": "Inspect worker-to-database namespace, transaction, timing, and ownership contracts.",
+        "aya-source-investigation": "Verify when the failures began and which log or change records support each causal claim.",
+        "nitori-reverse-engineering": "Reconstruct the worker/database interaction from controlled traces and competing race hypotheses.",
+        "eiki-rule-review": "Establish the CI isolation and correctness contract, then judge which guarantee is violated and how to correct it.",
+        "seija-assumption-inversion": "Invert the premise that parallel execution is necessary and test a counterexample that preserves the actual CI goal."
       }
     },
     {
@@ -19,7 +23,11 @@
         "reimu-incident-triage": "Identify the concrete regression and recover the most affected path before broad redesign.",
         "marisa-rapid-prototyping": "Test one alternative topology against a representative critical path.",
         "cirno-radical-simplification": "Produce a three-part baseline and force each service to justify its independent existence.",
-        "yukari-boundary-analysis": "Map new network, ownership, consistency, and lifecycle crossings introduced by the split."
+        "yukari-boundary-analysis": "Map new network, ownership, consistency, and lifecycle crossings introduced by the split.",
+        "aya-source-investigation": "Verify the speed, reliability, and operating-cost claims against dated metrics rather than team impressions.",
+        "nitori-reverse-engineering": "Reconstruct the actual request and state mechanism across the split from traces and failure probes.",
+        "eiki-rule-review": "Compare the decomposition against governing SLOs and architecture rules before assigning a conformance judgment.",
+        "seija-assumption-inversion": "Invert the premise that independent deployment requires these service boundaries and trace the alternative."
       }
     },
     {
@@ -29,7 +37,11 @@
         "reimu-incident-triage": "Separate corrupt samples from consequences and isolate the smallest bad transition.",
         "marisa-rapid-prototyping": "Borrow parsers or format clues and build the smallest round-trip experiment.",
         "cirno-radical-simplification": "Reduce the import path and test whether either vendor transformation is necessary.",
-        "yukari-boundary-analysis": "Trace representation, ownership, and validation at each vendor crossing."
+        "yukari-boundary-analysis": "Trace representation, ownership, and validation at each vendor crossing.",
+        "aya-source-investigation": "Find the closest format and version sources, then separate vendor claims from observed compatibility evidence.",
+        "nitori-reverse-engineering": "Use differential samples to infer the format, transformation mechanism, and a predictive parser model.",
+        "eiki-rule-review": "Establish the controlling format or vendor contract and test each import against its required elements.",
+        "seija-assumption-inversion": "Invert the assumption that both vendor transformations preserve meaning and test which dependency collapses."
       }
     },
     {
@@ -39,7 +51,67 @@
         "reimu-incident-triage": "Decline incident framing because no abnormal state has been observed.",
         "marisa-rapid-prototyping": "Identify the riskiest architectural assumption and test it cheaply.",
         "cirno-radical-simplification": "Freeze the outcome, delete speculative parts, and make complexity earn its return.",
-        "yukari-boundary-analysis": "Require a concrete crossing before analyzing interfaces in depth."
+        "yukari-boundary-analysis": "Require a concrete crossing before analyzing interfaces in depth.",
+        "aya-source-investigation": "Trace each claimed need for the queue, cache, engine, and mesh to evidence or an authoritative constraint.",
+        "nitori-reverse-engineering": "Decline to invent a mechanism before an artifact exists and inventory the real interfaces that must be understood.",
+        "eiki-rule-review": "Separate mandatory compliance or specification requirements from architectural preference before judging the proposal.",
+        "seija-assumption-inversion": "Expose and invert the consensus's load-bearing premise, then build the strongest falsifiable alternative."
+      }
+    },
+    {
+      "id": "viral-benchmark",
+      "prompt": "A vendor press release and many articles claim its new AI system outperforms professionals on real work.",
+      "expected_moves": {
+        "reimu-incident-triage": "Decline incident recovery because no abnormal operational state has been identified.",
+        "marisa-rapid-prototyping": "Define a representative head-to-head experiment that can test the performance claim.",
+        "cirno-radical-simplification": "Reduce the claim to the smallest outcome and benchmark needed for the decision at hand.",
+        "yukari-boundary-analysis": "Inspect where benchmark results cross into real-world claims with different users, inputs, and ownership.",
+        "aya-source-investigation": "Trace repeated coverage to its origin, inspect the actual study, and calibrate a source-backed verdict.",
+        "nitori-reverse-engineering": "Decline unsupported mechanism claims and identify what artifact access would permit behavioral reconstruction.",
+        "eiki-rule-review": "Identify the advertising or evaluation standard before judging whether the public claim conforms.",
+        "seija-assumption-inversion": "Invert the premise that benchmark superiority implies workflow superiority and construct a falsifiable counterexample."
+      }
+    },
+    {
+      "id": "legacy-protocol",
+      "prompt": "A licensed legacy device has no documentation; its authorized packet captures change unpredictably across firmware versions.",
+      "expected_moves": {
+        "reimu-incident-triage": "Identify the concrete broken workflow and smallest firmware boundary before attempting broad reconstruction.",
+        "marisa-rapid-prototyping": "Build the smallest safe protocol spike that tests one interoperability hypothesis.",
+        "cirno-radical-simplification": "Freeze the required interoperability outcome and discard protocol features the integration does not need.",
+        "yukari-boundary-analysis": "Map device, transport, firmware-version, and host responsibility boundaries for one traced packet.",
+        "aya-source-investigation": "Find authoritative filings, manuals, firmware notes, and version dates without treating forum repetition as proof.",
+        "nitori-reverse-engineering": "Inventory captures, form competing state-machine hypotheses, run differential probes, and build a predictive replica.",
+        "eiki-rule-review": "Establish license and authorization limits before judging which inspection and interoperability actions are permitted.",
+        "seija-assumption-inversion": "Invert the assumption that one stable protocol exists across firmware and test version-specific mechanisms."
+      }
+    },
+    {
+      "id": "credential-policy",
+      "prompt": "A developer accidentally exposed a credential, reported it immediately, and fixed the leak; the policy states the rule but no fixed sanction.",
+      "expected_moves": {
+        "reimu-incident-triage": "Contain the credential exposure, restore a safe state, and verify rotation before discussing discipline.",
+        "marisa-rapid-prototyping": "Decline to prototype the judgment and propose a small test only for the technical prevention mechanism.",
+        "cirno-radical-simplification": "Reduce prevention to the smallest safeguards that satisfy exposure, detection, and recovery constraints.",
+        "yukari-boundary-analysis": "Trace where secret data crossed from protected configuration into logs and whose contract failed.",
+        "aya-source-investigation": "Verify the timeline and evidence of exposure, reporting, access, and rotation before summarizing the event.",
+        "nitori-reverse-engineering": "Reconstruct the logging path and filtering mechanism only as needed to explain how the credential escaped.",
+        "eiki-rule-review": "Apply the controlling rule element by element, grade harm and mitigation, and recommend a proportionate corrective path.",
+        "seija-assumption-inversion": "Challenge the premise that harsher individual punishment is the best recurrence control while preserving accountability."
+      }
+    },
+    {
+      "id": "centralized-data",
+      "prompt": "The team says all customer raw data must be centralized because analysts need one query surface, despite privacy and deletion costs.",
+      "expected_moves": {
+        "reimu-incident-triage": "Decline incident framing unless a concrete abnormal state or active privacy failure is identified.",
+        "marisa-rapid-prototyping": "Test a representative federated or aggregate-only path against actual analysis needs.",
+        "cirno-radical-simplification": "Freeze the reporting outcome and propose a minimal data flow with only constraint-earned storage.",
+        "yukari-boundary-analysis": "Map trust, ownership, deletion, schema, and query crossings created by centralization.",
+        "aya-source-investigation": "Verify each claimed analytic requirement and privacy constraint against primary stakeholders and policies.",
+        "nitori-reverse-engineering": "Inspect the existing data pipeline and reconstruct which transformations truly require raw central data.",
+        "eiki-rule-review": "Apply data-governance, deletion, access, and audit rules before judging the permissible design.",
+        "seija-assumption-inversion": "Invert raw-data centralization while preserving one query surface, then trace and test the resulting design."
       }
     }
   ]

@@ -30,6 +30,7 @@
   ],
   "quality_cases": [
     {
+      "id": "local-vector-index",
       "prompt": "Test whether a local vector index is adequate for our 50k-document offline app.",
       "must_show": [
         "decision at stake",
