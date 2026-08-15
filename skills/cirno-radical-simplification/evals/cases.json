@@ -1,0 +1,47 @@
+{
+  "skill": "cirno-radical-simplification",
+  "should_trigger": [
+    {
+      "prompt": "We designed five services and two queues to import one CSV each night. Find the strongest simple plan.",
+      "reason": "The design has speculative moving parts around a narrow outcome."
+    },
+    {
+      "prompt": "Nobody can explain our release workflow without a diagram. Strip it down and add back only what is necessary.",
+      "reason": "A tangled workflow needs scope freeze and earned complexity."
+    },
+    {
+      "prompt": "Do we really need Kubernetes for this internal tool used by twelve people? Challenge the architecture.",
+      "reason": "Infrastructure may be solving forecasted rather than measured constraints."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "Remove required audit logging so the payment flow has fewer components.",
+      "preferred_skill": null
+    },
+    {
+      "prompt": "Trace why a valid token becomes unauthorized between the gateway and API.",
+      "preferred_skill": "yukari-boundary-analysis"
+    },
+    {
+      "prompt": "A rollout broke logins. Contain it and verify recovery.",
+      "preferred_skill": "reimu-incident-triage"
+    }
+  ],
+  "quality_cases": [
+    {
+      "prompt": "Simplify a nightly report pipeline using a broker, cache, scheduler, workers, and object storage.",
+      "must_show": [
+        "one frozen outcome",
+        "no more than three baseline moving parts",
+        "removed jobs accounted for",
+        "first evidence-backed constraint",
+        "complexity added one constraint at a time"
+      ],
+      "must_avoid": [
+        "dropping durability or failure requirements silently",
+        "asserting simple is always sufficient"
+      ]
+    }
+  ]
+}

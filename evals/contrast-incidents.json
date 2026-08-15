@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "purpose": "Give the same incident to multiple skills and verify that each changes the decision process rather than merely the tone.",
+  "incidents": [
+    {
+      "id": "parallel-ci",
+      "prompt": "After splitting a monolithic CI job into parallel workers, tests fail intermittently with database errors.",
+      "expected_moves": {
+        "reimu-incident-triage": "Bound the first abnormal transition and propose the smallest verifiable recovery.",
+        "marisa-rapid-prototyping": "Construct a minimal reproduction that varies concurrency and records the decisive signal.",
+        "cirno-radical-simplification": "Challenge whether parallelism and its coordination machinery are required for the actual CI goal.",
+        "yukari-boundary-analysis": "Inspect worker-to-database namespace, transaction, timing, and ownership contracts."
+      }
+    },
+    {
+      "id": "service-split",
+      "prompt": "A service decomposition made the product slower, less reliable, and harder to operate.",
+      "expected_moves": {
+        "reimu-incident-triage": "Identify the concrete regression and recover the most affected path before broad redesign.",
+        "marisa-rapid-prototyping": "Test one alternative topology against a representative critical path.",
+        "cirno-radical-simplification": "Produce a three-part baseline and force each service to justify its independent existence.",
+        "yukari-boundary-analysis": "Map new network, ownership, consistency, and lifecycle crossings introduced by the split."
+      }
+    },
+    {
+      "id": "unfamiliar-format",
+      "prompt": "An undocumented binary file sometimes imports incorrectly after passing through two vendors.",
+      "expected_moves": {
+        "reimu-incident-triage": "Separate corrupt samples from consequences and isolate the smallest bad transition.",
+        "marisa-rapid-prototyping": "Borrow parsers or format clues and build the smallest round-trip experiment.",
+        "cirno-radical-simplification": "Reduce the import path and test whether either vendor transformation is necessary.",
+        "yukari-boundary-analysis": "Trace representation, ownership, and validation at each vendor crossing."
+      }
+    },
+    {
+      "id": "consensus-design",
+      "prompt": "Everyone agrees we need a queue, cache, workflow engine, and service mesh for a new internal tool.",
+      "expected_moves": {
+        "reimu-incident-triage": "Decline incident framing because no abnormal state has been observed.",
+        "marisa-rapid-prototyping": "Identify the riskiest architectural assumption and test it cheaply.",
+        "cirno-radical-simplification": "Freeze the outcome, delete speculative parts, and make complexity earn its return.",
+        "yukari-boundary-analysis": "Require a concrete crossing before analyzing interfaces in depth."
+      }
+    }
+  ]
+}

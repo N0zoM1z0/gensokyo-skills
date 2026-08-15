@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "hakurei-incident-duo",
+  "display_name": "Hakurei Incident Duo",
+  "when": "Use when the team needs one cheap experiment to reduce uncertainty before committing to incident recovery.",
+  "members": [
+    {
+      "skill": "marisa-rapid-prototyping",
+      "role": "Diverge just enough to produce runnable evidence."
+    },
+    {
+      "skill": "reimu-incident-triage",
+      "role": "Converge on the abnormality and smallest safe recovery."
+    }
+  ],
+  "sequence": [
+    "Frame the riskiest incident hypothesis as a small experiment.",
+    "Run or specify the experiment and capture the observed signal.",
+    "Use that signal to bound the incident and choose recovery."
+  ],
+  "handoffs": [
+    {
+      "from": "marisa-rapid-prototyping",
+      "to": "reimu-incident-triage",
+      "provides": [
+        "runnable hypothesis",
+        "observed result",
+        "eliminated alternatives",
+        "prototype limitations"
+      ],
+      "expects": [
+        "bounded abnormality",
+        "minimal recovery",
+        "verification signal"
+      ]
+    }
+  ]
+}

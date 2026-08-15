@@ -1,0 +1,4 @@
+interface:
+  display_name: "Yukari: Boundary Analysis"
+  short_description: "Inspect interfaces ownership and edge conditions"
+  default_prompt: "Use $yukari-boundary-analysis to map the boundaries where this system can fail."

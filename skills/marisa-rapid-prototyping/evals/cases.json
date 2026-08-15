@@ -1,0 +1,47 @@
+{
+  "skill": "marisa-rapid-prototyping",
+  "should_trigger": [
+    {
+      "prompt": "We do not know whether SQLite can handle this desktop app workload. Make the smallest useful experiment.",
+      "reason": "A feasibility decision hinges on one measurable assumption."
+    },
+    {
+      "prompt": "Compare these two parsing libraries with a runnable spike, not a feature matrix.",
+      "reason": "Prior art and a decisive experiment can replace speculation."
+    },
+    {
+      "prompt": "I have a strange interaction idea. Prototype only enough to learn whether users understand it.",
+      "reason": "The goal is decision-relevant evidence, not a polished implementation."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "Production is down after a deploy. Isolate the failure and give me a rollback check.",
+      "preferred_skill": "reimu-incident-triage"
+    },
+    {
+      "prompt": "Explain where schema ownership changes between producer and consumer.",
+      "preferred_skill": "yukari-boundary-analysis"
+    },
+    {
+      "prompt": "We already selected the approach. Implement the production-ready endpoint.",
+      "preferred_skill": null
+    }
+  ],
+  "quality_cases": [
+    {
+      "prompt": "Test whether a local vector index is adequate for our 50k-document offline app.",
+      "must_show": [
+        "decision at stake",
+        "one falsifiable risky assumption",
+        "representative runnable experiment",
+        "observed signal or exact measurement plan",
+        "prototype debt and stabilization gate"
+      ],
+      "must_avoid": [
+        "full production implementation before evidence",
+        "treating a demo as deployment readiness"
+      ]
+    }
+  ]
+}

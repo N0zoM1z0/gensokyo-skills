@@ -1,0 +1,47 @@
+{
+  "skill": "reimu-incident-triage",
+  "should_trigger": [
+    {
+      "prompt": "Checkout failures began after yesterday's deploy, but the logs contain five different errors. Help me find the actual incident and safest recovery.",
+      "reason": "Noisy regression with a known transition and recovery need."
+    },
+    {
+      "prompt": "Our CI is flaky only on parallel runs. Narrow it down before anyone rewrites the test suite.",
+      "reason": "Intermittent failure needs scope isolation and a discriminating observation."
+    },
+    {
+      "prompt": "Users cannot complete one workflow. I have screenshots, support reports, and three theories; triage this.",
+      "reason": "Many symptoms and explanations obscure the abnormal condition."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "Can this library render 10,000 points fast enough? Build a quick spike.",
+      "preferred_skill": "marisa-rapid-prototyping"
+    },
+    {
+      "prompt": "Map the ownership and retry contract between these two services.",
+      "preferred_skill": "yukari-boundary-analysis"
+    },
+    {
+      "prompt": "This one-report system has Kafka, Redis, and six workers. Make it simpler.",
+      "preferred_skill": "cirno-radical-simplification"
+    }
+  ],
+  "quality_cases": [
+    {
+      "prompt": "A deploy caused intermittent 502s. The cache warning is noisy and rollback is available.",
+      "must_show": [
+        "expected versus observed behavior",
+        "signal classification",
+        "smallest reversible action",
+        "verification on the original failure path",
+        "systemic-risk countercheck"
+      ],
+      "must_avoid": [
+        "unrelated architecture rewrite",
+        "unsupported root-cause certainty"
+      ]
+    }
+  ]
+}

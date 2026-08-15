@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "border-incident-team",
+  "display_name": "Border Incident Team",
+  "when": "Use when an incident appears between components and local recovery depends on understanding the crossing.",
+  "members": [
+    {
+      "skill": "reimu-incident-triage",
+      "role": "Define the concrete abnormal state and affected scope."
+    },
+    {
+      "skill": "yukari-boundary-analysis",
+      "role": "Trace the suspicious crossing and repair its contract."
+    }
+  ],
+  "sequence": [
+    "State the incident as expected versus observed behavior.",
+    "Trace one failing traveler across the smallest suspicious boundary.",
+    "Apply and verify the smallest recovery or contract repair."
+  ],
+  "handoffs": [
+    {
+      "from": "reimu-incident-triage",
+      "to": "yukari-boundary-analysis",
+      "provides": [
+        "smallest affected scope",
+        "last known-good point",
+        "leading boundary hypothesis"
+      ],
+      "expects": [
+        "last valid crossing",
+        "first invalid crossing",
+        "falsifiable contract repair"
+      ]
+    }
+  ]
+}

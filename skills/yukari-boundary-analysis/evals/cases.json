@@ -1,0 +1,47 @@
+{
+  "skill": "yukari-boundary-analysis",
+  "should_trigger": [
+    {
+      "prompt": "Both services pass their own tests, but orders disappear between checkout and analytics. Trace the interface.",
+      "reason": "The failure emerges at a crossing between healthy components."
+    },
+    {
+      "prompt": "Nobody owns cancellation after our frontend hands a job to the worker. Map the responsibility boundary.",
+      "reason": "Ownership and lifecycle semantics are unclear across a handoff."
+    },
+    {
+      "prompt": "Our v2 producer and v1 consumers disagree only during rolling deploys. Find the contract gap.",
+      "reason": "Version skew is a boundary-specific edge condition."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "A local pure function returns the wrong total for negative values.",
+      "preferred_skill": "reimu-incident-triage"
+    },
+    {
+      "prompt": "Can this unknown API support our use case? Build a quick executable test.",
+      "preferred_skill": "marisa-rapid-prototyping"
+    },
+    {
+      "prompt": "We have too many deployable services for a small app. Reduce the moving parts.",
+      "preferred_skill": "cirno-radical-simplification"
+    }
+  ],
+  "quality_cases": [
+    {
+      "prompt": "Some committed records never reach a downstream projection after rolling deploys.",
+      "must_show": [
+        "both sides and their owners",
+        "guaranteed versus assumed contract",
+        "one traced record or event",
+        "last valid and first invalid point",
+        "prioritized edge test and smallest contract repair"
+      ],
+      "must_avoid": [
+        "abstract boundary catalog with no concrete failure",
+        "whole-system redesign before falsification"
+      ]
+    }
+  ]
+}

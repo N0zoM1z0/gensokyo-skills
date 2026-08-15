@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cirno: Radical Simplification"
+  short_description: "Strip complexity until the real constraint appears"
+  default_prompt: "Use $cirno-radical-simplification to find the strongest simple plan and add back only necessary complexity."

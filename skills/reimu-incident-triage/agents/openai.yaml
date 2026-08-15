@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reimu: Incident Triage"
+  short_description: "Find the real incident and restore normality"
+  default_prompt: "Use $reimu-incident-triage to isolate the real abnormality and propose the smallest verifiable recovery."

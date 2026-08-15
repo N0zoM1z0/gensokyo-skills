@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "fingerprint_axes": [
+    "exploration",
+    "convergence",
+    "tempo",
+    "abstraction",
+    "intervention",
+    "evidence",
+    "adversarial",
+    "simplification"
+  ],
+  "skills": [
+    {
+      "id": "reimu-incident-triage",
+      "character": "reimu-hakurei",
+      "capability": "incident-triage",
+      "cognitive_policy": "converge, isolate, restore",
+      "signature_strength": "Find the actual abnormality and stop after verified recovery.",
+      "failure_mode": "Converges before checking systemic risk.",
+      "countercheck": "Test recurrence, hidden scope, and whether recovery only hid the signal.",
+      "operators": [
+        "sort-the-scene",
+        "draw-the-incident",
+        "restore-normality",
+        "verify-and-leave-cleanly"
+      ],
+      "fingerprint": {
+        "exploration": 1,
+        "convergence": 5,
+        "tempo": 4,
+        "abstraction": 2,
+        "intervention": 2,
+        "evidence": 4,
+        "adversarial": 1,
+        "simplification": 4
+      }
+    },
+    {
+      "id": "marisa-rapid-prototyping",
+      "character": "marisa-kirisame",
+      "capability": "rapid-prototyping",
+      "cognitive_policy": "borrow, build, run, learn",
+      "signature_strength": "Turn an uncertain choice into runnable evidence quickly.",
+      "failure_mode": "Lets prototype success conceal production debt.",
+      "countercheck": "Require a stabilization gate before adoption.",
+      "operators": [
+        "search-before-shaping",
+        "aim-at-one-unknown",
+        "run-and-record",
+        "earn-the-larger-build"
+      ],
+      "fingerprint": {
+        "exploration": 5,
+        "convergence": 2,
+        "tempo": 5,
+        "abstraction": 2,
+        "intervention": 5,
+        "evidence": 3,
+        "adversarial": 2,
+        "simplification": 2
+      }
+    },
+    {
+      "id": "cirno-radical-simplification",
+      "character": "cirno",
+      "capability": "radical-simplification",
+      "cognitive_policy": "freeze, strip, collide, earn",
+      "signature_strength": "Expose speculative complexity with a tiny complete baseline.",
+      "failure_mode": "Drops intrinsic complexity along with accidental complexity.",
+      "countercheck": "Stress the baseline against safety, domain, and failure constraints.",
+      "operators": [
+        "scope-lock",
+        "three-part-solution",
+        "find-the-first-crack",
+        "earn-each-addition"
+      ],
+      "fingerprint": {
+        "exploration": 3,
+        "convergence": 4,
+        "tempo": 5,
+        "abstraction": 1,
+        "intervention": 3,
+        "evidence": 2,
+        "adversarial": 4,
+        "simplification": 5
+      }
+    },
+    {
+      "id": "yukari-boundary-analysis",
+      "character": "yukari-yakumo",
+      "capability": "boundary-analysis",
+      "cognitive_policy": "map, contract, trace, test",
+      "signature_strength": "Reveal failures where representation, responsibility, or state crosses.",
+      "failure_mode": "Finds abstract boundaries without anchoring a real failure.",
+      "countercheck": "Require a traced traveler and a falsifiable boundary explanation.",
+      "operators": [
+        "name-both-sides",
+        "write-the-contract",
+        "follow-one-traveler",
+        "test-the-edges",
+        "change-the-smallest-contract"
+      ],
+      "fingerprint": {
+        "exploration": 3,
+        "convergence": 3,
+        "tempo": 2,
+        "abstraction": 5,
+        "intervention": 2,
+        "evidence": 4,
+        "adversarial": 3,
+        "simplification": 2
+      }
+    }
+  ]
+}

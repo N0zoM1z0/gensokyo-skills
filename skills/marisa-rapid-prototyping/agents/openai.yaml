@@ -1,0 +1,4 @@
+interface:
+  display_name: "Marisa: Rapid Prototyping"
+  short_description: "Turn uncertain ideas into runnable evidence"
+  default_prompt: "Use $marisa-rapid-prototyping to turn this uncertain idea into the smallest informative experiment."

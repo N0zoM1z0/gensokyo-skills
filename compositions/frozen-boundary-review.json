@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "frozen-boundary-review",
+  "display_name": "Frozen Boundary Review",
+  "when": "Use when a complex integration design may contain both needless parts and genuinely difficult interfaces.",
+  "members": [
+    {
+      "skill": "cirno-radical-simplification",
+      "role": "Delete speculative machinery and expose the smallest complete topology."
+    },
+    {
+      "skill": "yukari-boundary-analysis",
+      "role": "Stress the remaining crossings and restore only contract machinery that is necessary."
+    }
+  ],
+  "sequence": [
+    "Freeze the outcome and propose a three-part baseline.",
+    "Map the boundaries that remain in the baseline.",
+    "Add back complexity only for a failed, named boundary constraint."
+  ],
+  "handoffs": [
+    {
+      "from": "cirno-radical-simplification",
+      "to": "yukari-boundary-analysis",
+      "provides": [
+        "three-part baseline",
+        "removed components and jobs",
+        "first hard constraint"
+      ],
+      "expects": [
+        "boundary contract at risk",
+        "edge test",
+        "minimum justified addition"
+      ]
+    }
+  ]
+}
