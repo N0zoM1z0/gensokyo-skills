@@ -13,8 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
       - name: Validate repository contracts
         run: python3 scripts/validate.py
+      - name: Verify standard Agent Skills discovery
+        env:
+          DISABLE_TELEMETRY: "1"
+        run: npx --yes skills@1.5.22 add . --list
       - name: Test model-eval transport and scoring
         run: python3 -m unittest discover -s tests -v
       - name: Compile and resolve eval manifests

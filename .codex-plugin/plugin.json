@@ -1,0 +1,38 @@
+{
+  "name": "gensokyo-skills",
+  "version": "0.2.0",
+  "description": "Eight Touhou-shaped, testable problem-solving workflows for ChatGPT and Codex.",
+  "author": {
+    "name": "N0zoM1z0",
+    "url": "https://github.com/N0zoM1z0"
+  },
+  "homepage": "https://github.com/N0zoM1z0/gensokyo-skills#readme",
+  "repository": "https://github.com/N0zoM1z0/gensokyo-skills",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "touhou",
+    "problem-solving",
+    "codex",
+    "chatgpt"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Gensokyo Skills",
+    "shortDescription": "Touhou-shaped workflows that change how agents decide",
+    "longDescription": "Eight distinct workflows for incident triage, rapid prototyping, radical simplification, boundary analysis, source investigation, reverse engineering, rule review, and assumption inversion.",
+    "developerName": "N0zoM1z0",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/N0zoM1z0/gensokyo-skills",
+    "defaultPrompt": [
+      "Choose the Gensokyo skill that best fits this problem.",
+      "Run the same incident through two contrasting Gensokyo skills.",
+      "Use a Gensokyo party with one explicit handoff."
+    ]
+  }
+}
