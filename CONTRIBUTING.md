@@ -25,6 +25,8 @@ Add:
 - one quality case with a stable slug `id`, observable requirements, and explicit failure criteria;
 - a catalog entry and at least one cross-skill contrast expectation.
 
+For a non-character utility, add an entry under `catalog/skills.json` → `utilities` instead of inventing a fingerprint. It still needs trigger, near-miss, and quality evals, but it must not be added to character compositions or contrast incidents. Utilities are admitted only when they support the roster with a narrow operation that does not belong inside one character workflow.
+
 Do not add a composition solely because two characters have a relationship. Define a useful handoff contract and keep the party at three skills or fewer.
 
 ## Acceptance checklist

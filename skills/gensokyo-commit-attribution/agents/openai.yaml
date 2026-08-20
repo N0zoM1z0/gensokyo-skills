@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gensokyo Commit Attribution"
+  short_description: "Add truthful Gensokyo assistance trailers"
+  default_prompt: "Use $gensokyo-commit-attribution to prepare a commit message with truthful character-skill assistance trailers."

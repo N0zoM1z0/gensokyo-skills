@@ -263,17 +263,27 @@ def validate_distribution(skill_ids: set[str], validation: Validation) -> None:
     validation.check(bool(entry.get("category")), ".agents/plugins/marketplace.json: missing category")
 
 
-def validate_catalog(skill_ids: set[str], validation: Validation) -> None:
+def validate_catalog(skill_ids: set[str], validation: Validation) -> set[str]:
     path = ROOT / "catalog/skills.json"
     catalog = validation.load_json(path)
     if not isinstance(catalog, dict):
-        return
+        return set()
 
     axes = catalog.get("fingerprint_axes", [])
     entries = catalog.get("skills", [])
+    utilities = catalog.get("utilities", [])
     catalog_ids = [entry.get("id") for entry in entries if isinstance(entry, dict)]
+    utility_ids = [entry.get("id") for entry in utilities if isinstance(entry, dict)]
     validation.check(len(catalog_ids) == len(set(catalog_ids)), "catalog/skills.json: duplicate skill ids")
-    validation.check(set(catalog_ids) == skill_ids, "catalog/skills.json: entries must match skill directories")
+    validation.check(len(utility_ids) == len(set(utility_ids)), "catalog/skills.json: duplicate utility ids")
+    validation.check(
+        not (set(catalog_ids) & set(utility_ids)),
+        "catalog/skills.json: character and utility ids must not overlap",
+    )
+    validation.check(
+        set(catalog_ids) | set(utility_ids) == skill_ids,
+        "catalog/skills.json: character and utility entries must match skill directories",
+    )
 
     for entry in entries:
         if not isinstance(entry, dict):
@@ -289,6 +299,16 @@ def validate_catalog(skill_ids: set[str], validation: Validation) -> None:
             )
         for field in ("signature_strength", "failure_mode", "countercheck", "operators"):
             validation.check(bool(entry.get(field)), f"catalog: {skill_id} missing {field}")
+
+    for entry in utilities:
+        if not isinstance(entry, dict):
+            validation.errors.append("catalog/skills.json: each utility entry must be an object")
+            continue
+        utility_id = entry.get("id", "<unknown>")
+        for field in ("capability", "purpose", "guardrail", "operators"):
+            validation.check(bool(entry.get(field)), f"catalog utility: {utility_id} missing {field}")
+
+    return set(catalog_ids)
 
 
 def validate_compositions(skill_ids: set[str], validation: Validation) -> int:
@@ -369,11 +389,11 @@ def main() -> int:
         skill_routing_count, skill_quality_count = validate_skill(path, skill_ids, validation)
         routing_count += skill_routing_count
         quality_count += skill_quality_count
-    validate_catalog(skill_ids, validation)
+    character_skill_ids = validate_catalog(skill_ids, validation)
     validate_model_config(validation)
     validate_distribution(skill_ids, validation)
-    composition_count = validate_compositions(skill_ids, validation)
-    contrast_count = validate_contrast(skill_ids, validation)
+    composition_count = validate_compositions(character_skill_ids, validation)
+    contrast_count = validate_contrast(character_skill_ids, validation)
     validate_markdown_links(validation)
 
     for json_path in ROOT.rglob("*.json"):
@@ -386,7 +406,8 @@ def main() -> int:
         return 1
 
     print(
-        f"Validated {len(skill_paths)} skills, {composition_count} compositions, "
+        f"Validated {len(skill_paths)} packages ({len(character_skill_ids)} character skills), "
+        f"{composition_count} compositions, "
         f"{routing_count} routing cases, {quality_count} quality cases, "
         f"and {contrast_count} contrast incidents."
     )

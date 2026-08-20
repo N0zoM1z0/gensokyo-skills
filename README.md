@@ -68,7 +68,7 @@ codex plugin marketplace add N0zoM1z0/gensokyo-skills
 codex plugin add gensokyo-skills@gensokyo-skills
 ```
 
-Start a new thread after installation so the eight bundled skills are available. Upgrade the marketplace snapshot later with `codex plugin marketplace upgrade gensokyo-skills`.
+Start a new thread after installation so the eight character workflows and commit-attribution utility are available. Upgrade the marketplace snapshot later with `codex plugin marketplace upgrade gensokyo-skills`.
 
 Each runtime package contains its own `SKILL.md`, UI metadata, provenance note, worked example, and eval cases. Manual copying remains possible, but the commands above preserve source tracking and update workflows.
 
@@ -83,18 +83,32 @@ Use $aya-source-investigation to verify whether these articles share one weak so
 Use $nitori-reverse-engineering to infer this binary format from controlled samples.
 Use $eiki-rule-review to review this action against the governing policy.
 Use $seija-assumption-inversion to reverse the premise holding this design in place.
+Use $gensokyo-commit-attribution when these workflows materially shaped a commit.
 ```
 
 Descriptions are also written for implicit routing, with near-miss cases in each skill's `evals/cases.json`.
 
+## Leave a trace in the spell history
+
+When one or more character workflows actually change a committed artifact, evidence set, scope, or decision, [`gensokyo-commit-attribution`](skills/gensokyo-commit-attribution/) can add truthful Git trailers:
+
+```text
+Repair timestamp compatibility boundary
+
+Assisted-by: Nitori (gensokyo-skills:nitori-reverse-engineering)
+Assisted-by: Yukari (gensokyo-skills:yukari-boundary-analysis)
+```
+
+The utility is deliberately strict: installing, mentioning, or merely loading a skill earns no attribution. A character must have been applied, materially useful, and represented in the staged commit. `Assisted-by` records workflow provenance; it does not claim human or co-author status.
+
 ## Why this is more than a theme pack
 
-Every skill must pass two deletion tests:
+Every character skill must pass two deletion tests:
 
 1. **Remove Touhou.** The remaining workflow must still be worth installing.
 2. **Swap the character.** The procedure must stop making sense without substantial changes.
 
-Every skill therefore includes:
+Every character skill therefore includes:
 
 - an activation boundary;
 - a characteristic operating bias;
@@ -108,7 +122,7 @@ Read [DESIGN.md](DESIGN.md) for the full contract.
 
 ## Danmaku fingerprints
 
-The catalog stores eight routing axes on a `0..5` scale. These are authoring signals, not claims about canon personalities.
+The character catalog stores eight routing axes on a `0..5` scale. These are authoring signals, not claims about canon personalities. Utility workflows such as commit attribution are cataloged separately and do not receive fictional character fingerprints.
 
 ```text
 Reimu   convergence    █████   tempo          ████    simplification ████

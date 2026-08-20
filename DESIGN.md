@@ -68,9 +68,20 @@ Keep only `name` and `description` in `SKILL.md` frontmatter. Put discovery boun
 
 Keep lore outside the core procedure. Link provenance only for users who ask about the mapping or fanwork basis. The runtime workflow must not depend on character biography.
 
+## Utility workflow contract
+
+The repository may ship a small non-character utility when it supports the character workflows without inventing a ninth cognitive policy. Utilities still use the complete runtime package shape and must have routing, near-miss, and quality evals, but they:
+
+- live in `catalog/skills.json` under `utilities`, outside character fingerprints;
+- do not join parties or character contrast incidents;
+- do not borrow a character name merely for theme;
+- must state a narrow operational trigger and a guardrail against ambient activation.
+
+`gensokyo-commit-attribution` is the reference case: it records material character-workflow provenance at commit time but contributes no problem-solving policy of its own.
+
 ## Routing contract
 
-For every skill, write:
+For every runtime package, write:
 
 - realistic prompts that should trigger it;
 - near-miss prompts that should select another named skill;
@@ -81,7 +92,7 @@ Descriptions must state both positive and negative boundaries. Avoid routing on 
 
 ## Contrast contract
 
-Run the same incident through multiple skills. Expected differences must concern action:
+Run the same incident through multiple character skills. Expected differences must concern action:
 
 - what evidence is sought;
 - how scope is changed;

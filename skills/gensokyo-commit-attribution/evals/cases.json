@@ -1,0 +1,48 @@
+{
+  "skill": "gensokyo-commit-attribution",
+  "should_trigger": [
+    {
+      "prompt": "Prepare and create the commit for these staged parser changes. Nitori's controlled probes produced the retained format model, and Yukari's boundary trace produced the adapter fix; add truthful Gensokyo assistance attribution.",
+      "reason": "A commit is being created and two character workflows materially shaped its staged artifacts."
+    },
+    {
+      "prompt": "Commit the incident fix. Reimu's triage isolated the regression and directly determined the rollback guard now staged; record any qualifying Gensokyo trailer.",
+      "reason": "Commit-message construction needs an evidence-gated trailer for a material character contribution."
+    },
+    {
+      "prompt": "Amend the current commit message to add the missing Eiki attribution; her rule review caused the staged compliance correction. Preserve the existing subject and body.",
+      "reason": "The user explicitly requested an amend to record a concrete Gensokyo contribution."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "Use Nitori to reconstruct this binary format, but do not edit files or create a commit.",
+      "preferred_skill": "nitori-reverse-engineering"
+    },
+    {
+      "prompt": "Commit this spelling correction. Aya is installed but was not used and did not affect the diff.",
+      "preferred_skill": null
+    },
+    {
+      "prompt": "Add a Co-authored-by trailer for the human developer who paired with me.",
+      "preferred_skill": null
+    }
+  ],
+  "quality_cases": [
+    {
+      "id": "multi-skill-commit",
+      "prompt": "Create a commit for the staged compatibility fix. During this work, Nitori's differential probes produced the parser rule retained in src/parser.py and its tests. Yukari traced the representation crossing and caused the normalization change in src/adapter.py. Aya was loaded, but her candidate article was discarded and changed nothing. A Nitori Assisted-by line is already present in the draft message. Prepare the final message and explain the attribution decision without inventing authorship.",
+      "must_show": [
+        "eligibility based on applied, material, and commit-scoped contribution",
+        "one canonical Nitori trailer with no duplicate",
+        "one canonical Yukari trailer in first material-use order",
+        "Aya omitted because no staged result depends on the discarded evidence",
+        "Assisted-by treated as workflow provenance rather than Co-authored-by authorship"
+      ],
+      "must_avoid": [
+        "crediting every loaded or mentioned skill",
+        "rewriting commit history without explicit authorization"
+      ]
+    }
+  ]
+}

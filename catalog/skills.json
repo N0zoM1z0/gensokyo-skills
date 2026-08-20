@@ -217,5 +217,19 @@
         "simplification": 3
       }
     }
+  ],
+  "utilities": [
+    {
+      "id": "gensokyo-commit-attribution",
+      "capability": "commit-attribution",
+      "purpose": "Record material Gensokyo character-workflow contributions in Git commit trailers.",
+      "guardrail": "Attribute only applied, material, commit-scoped contributions; never every loaded skill.",
+      "operators": [
+        "inspect-the-staged-scope",
+        "apply-the-evidence-gate",
+        "render-canonical-trailers",
+        "verify-the-committed-message"
+      ]
+    }
   ]
 }

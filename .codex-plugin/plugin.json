@@ -1,7 +1,7 @@
 {
   "name": "gensokyo-skills",
-  "version": "0.2.0",
-  "description": "Eight Touhou-shaped, testable problem-solving workflows for ChatGPT and Codex.",
+  "version": "0.3.0",
+  "description": "Eight Touhou-shaped problem-solving workflows plus truthful Git commit attribution.",
   "author": {
     "name": "N0zoM1z0",
     "url": "https://github.com/N0zoM1z0"
@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Gensokyo Skills",
     "shortDescription": "Touhou-shaped workflows that change how agents decide",
-    "longDescription": "Eight distinct workflows for incident triage, rapid prototyping, radical simplification, boundary analysis, source investigation, reverse engineering, rule review, and assumption inversion.",
+    "longDescription": "Eight distinct character workflows for incident triage, rapid prototyping, radical simplification, boundary analysis, source investigation, reverse engineering, rule review, and assumption inversion, plus evidence-gated Git commit attribution.",
     "developerName": "N0zoM1z0",
     "category": "Productivity",
     "capabilities": [
