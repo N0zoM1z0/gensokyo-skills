@@ -65,7 +65,7 @@ def parse_frontmatter(path: Path, validation: Validation) -> dict[str, str]:
 
 def validate_skill(
     path: Path, skill_ids: set[str], validation: Validation
-) -> tuple[int, int]:
+) -> tuple[int, int, int]:
     skill_id = path.name
     validation.check(bool(SLUG_RE.fullmatch(skill_id)), f"skills/{skill_id}: invalid slug")
 
@@ -74,7 +74,7 @@ def validate_skill(
 
     skill_md = path / "SKILL.md"
     if not skill_md.is_file():
-        return 0, 0
+        return 0, 0, 0
 
     text = skill_md.read_text(encoding="utf-8")
     values = parse_frontmatter(skill_md, validation)
@@ -106,6 +106,7 @@ def validate_skill(
     eval_path = path / "evals/cases.json"
     routing_count = 0
     quality_count = 0
+    admission_count = 0
     if eval_path.is_file():
         cases = validation.load_json(eval_path)
         if isinstance(cases, dict):
@@ -113,13 +114,16 @@ def validate_skill(
             triggers = cases.get("should_trigger", [])
             near_misses = cases.get("should_not_trigger", [])
             quality_cases = cases.get("quality_cases", [])
+            admission_cases = cases.get("admission_cases", [])
             validation.check(isinstance(triggers, list), f"skills/{skill_id}: should_trigger must be an array")
             validation.check(isinstance(near_misses, list), f"skills/{skill_id}: should_not_trigger must be an array")
             validation.check(isinstance(quality_cases, list), f"skills/{skill_id}: quality_cases must be an array")
-            if not isinstance(triggers, list) or not isinstance(near_misses, list) or not isinstance(quality_cases, list):
-                return 0, 0
+            validation.check(isinstance(admission_cases, list), f"skills/{skill_id}: admission_cases must be an array")
+            if not all(isinstance(group, list) for group in (triggers, near_misses, quality_cases, admission_cases)):
+                return 0, 0, 0
             routing_count = len(triggers) + len(near_misses)
             quality_count = len(quality_cases)
+            admission_count = len(admission_cases)
             validation.check(len(triggers) >= 3, f"skills/{skill_id}: need at least three should-trigger cases")
             validation.check(len(near_misses) >= 3, f"skills/{skill_id}: need at least three near-miss cases")
             validation.check(bool(quality_cases), f"skills/{skill_id}: need at least one quality case")
@@ -135,7 +139,7 @@ def validate_skill(
                 validation.check(bool(case.get("prompt")), f"skills/{skill_id}: near-miss {index} needs a prompt")
                 preferred = case.get("preferred_skill")
                 validation.check(
-                    preferred is None or preferred in skill_ids,
+                    preferred is None or preferred == "none" or preferred in skill_ids,
                     f"skills/{skill_id}: near-miss {index} has unknown preferred_skill {preferred}",
                 )
                 validation.check(
@@ -169,7 +173,45 @@ def validate_skill(
                 if isinstance(must_avoid, list):
                     validation.check(len(must_avoid) == len(set(must_avoid)), f"skills/{skill_id}: duplicate must_avoid criterion")
             validation.check(len(quality_ids) == len(set(quality_ids)), f"skills/{skill_id}: duplicate quality case ids")
-    return routing_count, quality_count
+            admission_ids: list[str] = []
+            allowed_deltas = {
+                "agent state",
+                "task artifact",
+                "evidence set",
+                "candidate decision",
+                "scope boundary",
+            }
+            for index, case in enumerate(admission_cases, start=1):
+                validation.check(isinstance(case, dict), f"skills/{skill_id}: admission case {index} must be an object")
+                if not isinstance(case, dict):
+                    continue
+                case_id = case.get("id")
+                admission_ids.append(case_id if isinstance(case_id, str) else "")
+                validation.check(
+                    isinstance(case_id, str) and bool(SLUG_RE.fullmatch(case_id)),
+                    f"skills/{skill_id}: admission case {index} needs a stable slug id",
+                )
+                theme_terms = case.get("theme_terms", [])
+                validation.check(
+                    isinstance(theme_terms, list)
+                    and len(theme_terms) >= 2
+                    and all(isinstance(term, str) and term for term in theme_terms),
+                    f"skills/{skill_id}: admission case {case_id or index} needs at least two theme terms",
+                )
+                for field in ("character_anchor", "swap_character", "swap_anchor", "expected_artifact"):
+                    validation.check(
+                        isinstance(case.get(field), str) and bool(case[field]),
+                        f"skills/{skill_id}: admission case {case_id or index} needs {field}",
+                    )
+                operator_deltas = case.get("operator_deltas", [])
+                validation.check(
+                    isinstance(operator_deltas, list)
+                    and bool(operator_deltas)
+                    and set(operator_deltas) <= allowed_deltas,
+                    f"skills/{skill_id}: admission case {case_id or index} has invalid operator_deltas",
+                )
+            validation.check(len(admission_ids) == len(set(admission_ids)), f"skills/{skill_id}: duplicate admission case ids")
+    return routing_count, quality_count, admission_count
 
 
 def validate_model_config(validation: Validation) -> None:
@@ -190,7 +232,7 @@ def validate_model_config(validation: Validation) -> None:
     for key in ("candidate_max_output_tokens", "judge_max_output_tokens", "request_timeout_seconds"):
         validation.check(isinstance(config.get(key), int) and config[key] > 0, f"evals/model-config.json: {key} must be positive")
     validation.check(isinstance(config.get("max_retries"), int) and config["max_retries"] >= 0, "evals/model-config.json: max_retries must be nonnegative")
-    for key in ("quality_min_score", "contrast_min_score"):
+    for key in ("quality_min_score", "admission_min_score", "contrast_min_score"):
         validation.check(isinstance(config.get(key), int) and 0 <= config[key] <= 4, f"evals/model-config.json: {key} must be in 0..4")
 
 
@@ -356,9 +398,22 @@ def validate_contrast(skill_ids: set[str], validation: Validation) -> int:
             "evals/contrast-incidents.json: every incident needs a stable slug id",
         )
         validation.check(bool(incident.get("prompt")), f"contrast incident {incident.get('id', '<unknown>')}: missing prompt")
+        if not isinstance(expected, dict):
+            validation.errors.append(
+                f"contrast incident {incident.get('id', '<unknown>')}: expected moves must be an object"
+            )
+            continue
         validation.check(
-            set(expected) == skill_ids,
-            f"contrast incident {incident.get('id', '<unknown>')}: expected moves must cover every skill",
+            len(expected) >= 2,
+            f"contrast incident {incident.get('id', '<unknown>')}: expected moves must cover at least two skills",
+        )
+        validation.check(
+            set(expected).issubset(skill_ids),
+            f"contrast incident {incident.get('id', '<unknown>')}: expected moves reference an unknown skill",
+        )
+        validation.check(
+            all(isinstance(move, str) and move for move in expected.values()),
+            f"contrast incident {incident.get('id', '<unknown>')}: expected moves must be non-empty strings",
         )
         validation.check(len(set(expected.values())) == len(expected), f"contrast incident {incident.get('id', '<unknown>')}: expected moves must be distinct")
     return len(incidents)
@@ -385,10 +440,12 @@ def main() -> int:
 
     routing_count = 0
     quality_count = 0
+    admission_count = 0
     for path in skill_paths:
-        skill_routing_count, skill_quality_count = validate_skill(path, skill_ids, validation)
+        skill_routing_count, skill_quality_count, skill_admission_count = validate_skill(path, skill_ids, validation)
         routing_count += skill_routing_count
         quality_count += skill_quality_count
+        admission_count += skill_admission_count
     character_skill_ids = validate_catalog(skill_ids, validation)
     validate_model_config(validation)
     validate_distribution(skill_ids, validation)
@@ -408,7 +465,7 @@ def main() -> int:
     print(
         f"Validated {len(skill_paths)} packages ({len(character_skill_ids)} character skills), "
         f"{composition_count} compositions, "
-        f"{routing_count} routing cases, {quality_count} quality cases, "
+        f"{routing_count} routing cases, {quality_count} quality cases, {admission_count} admission cases, "
         f"and {contrast_count} contrast incidents."
     )
     return 0

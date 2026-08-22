@@ -9,6 +9,7 @@
   "candidate_max_output_tokens": 3000,
   "judge_max_output_tokens": 5000,
   "quality_min_score": 3,
+  "admission_min_score": 3,
   "contrast_min_score": 3,
   "request_timeout_seconds": 120,
   "max_retries": 3,

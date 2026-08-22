@@ -1,0 +1,105 @@
+{
+  "skill": "kogasa-surprise-testing",
+  "should_trigger": [
+    {
+      "prompt": "This webhook handler passes the happy path. Find a plausible condition that breaks its promise, prove the smallest counterexample, and turn it into a regression test.",
+      "reason": "The request needs contract-driven surprise discovery followed by a durable regression guard."
+    },
+    {
+      "prompt": "Our parser handles all fixtures we thought of. Design a few high-value boundary probes, run the safest one, and keep only a reproducible failure.",
+      "reason": "A tested artifact needs ranked negative probes and a minimal observed counterexample."
+    },
+    {
+      "prompt": "Retries, duplicate messages, and partial cleanup worry me. Help me expose one real failure and encode an oracle that will catch it forever.",
+      "reason": "Ordering and lifecycle surprises must be converted into deterministic regression evidence."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "Everyone assumes this service must own the queue. Invert that premise and trace what changes.",
+      "preferred_skill": "seija-assumption-inversion"
+    },
+    {
+      "prompt": "Can this unfamiliar library sustain our throughput? Build the smallest runnable spike.",
+      "preferred_skill": "marisa-rapid-prototyping"
+    },
+    {
+      "prompt": "Production is failing after a deploy. Isolate the incident and choose the safest recovery.",
+      "preferred_skill": "reimu-incident-triage"
+    },
+    {
+      "prompt": "Both services pass their own tests, but events fail when crossing between them. Trace the contract boundary.",
+      "preferred_skill": "yukari-boundary-analysis"
+    },
+    {
+      "prompt": "Invent 100 whimsical edge cases for a product that has no behavior contract or runnable artifact, and call the list complete.",
+      "preferred_skill": "none"
+    }
+  ],
+  "quality_cases": [
+    {
+      "id": "duplicate-webhook-after-timeout",
+      "prompt": "A payment webhook applies an order update and normally returns 200. The provider retries when a response times out. We can use an isolated test database but must not call the real provider. Design the most useful test response; do not claim you ran anything.",
+      "must_show": [
+        "explicit behavior contract, control case, and independent oracle",
+        "a small ranked set of plausible surprises rather than an exhaustive edge-case list",
+        "one minimal counterexample that changes only a retry, ordering, or interruption condition",
+        "a regression test with deterministic setup, triggering action, precise assertions, and cleanup",
+        "a forge proof that would fail on old or fault-injected behavior, pass after correction, and check stability",
+        "a relevance countercheck and residual blind spots",
+        "a clear handback of the broader release or architecture decision after the regression artifact is specified"
+      ],
+      "must_avoid": [
+        "random novelty unconnected to a contract or credible operating condition",
+        "claims that the proposed probe or regression test was actually executed",
+        "taking over the release, adoption, or architecture decision instead of returning test evidence"
+      ]
+    },
+    {
+      "id": "offline-batch-after-lost-response",
+      "prompt": "A mobile notes app submits a batch with stable operation IDs. The server promises that losing the HTTP response and retrying the same batch cannot duplicate notes, but current tests cover only successful first attempts. Propose the smallest credible counterexample and a durable regression artifact using a fake transport and isolated database. Do not claim to run it or choose the product rollout.",
+      "must_show": [
+        "the at-most-once behavior contract, a successful-first-attempt control, and a persistent-state oracle independent of handler invocation count",
+        "a small ranked set of credible interruption or concurrency surprises",
+        "one minimal lost-response counterexample that changes only the transport outcome before an identical retry",
+        "a deterministic integration test with stable operation IDs, isolated persistence, exact note-count assertions, and cleanup",
+        "a forge proof covering broken or fault-injected behavior, corrected behavior, and repeat stability",
+        "residual blind spots such as concurrent clients, crash boundaries, conflicting operation-ID reuse, or deduplication expiry",
+        "an explicit handback of the rollout decision"
+      ],
+      "must_avoid": [
+        "claiming the proposed test was executed or the failure was observed",
+        "recommending rollout approval or rejection instead of returning regression evidence"
+      ]
+    },
+    {
+      "id": "conflicting-canonical-and-legacy-aliases",
+      "prompt": "A configuration API accepts canonical color and legacy colour for one release, but promises to reject a request supplying both with conflicting values. Existing tests cover each spelling alone. The user asks for fifty creative spellings and calls that complete coverage. Return the most useful plan-only test artifact without claiming execution, prescribing a fix, or deciding the release.",
+      "must_show": [
+        "an explicit rejection of arbitrary case-count completeness and an evidence-based stopping rule",
+        "the alias-conflict contract, canonical-only and alias-only controls, and an independently observable durable-state oracle",
+        "a small ranked set centered on conflicting dual supply and relevant ordering or representation variants",
+        "one minimal counterexample that changes only the simultaneous conflicting alias condition",
+        "a maintained deterministic API regression with isolated setup, one action, response and state assertions, and cleanup",
+        "proposed fail-before or fault-injected, pass-after, stability, and irrelevant-perturbation evidence",
+        "residual blind spots and an explicit handback of implementation and release decisions"
+      ],
+      "must_avoid": [
+        "an arbitrary long list presented as complete coverage",
+        "using only the implementation return value as an independent oracle",
+        "claims of execution, a prescribed production fix, or a release decision"
+      ]
+    }
+  ],
+  "admission_cases": [
+    {
+      "id": "surprise-forge-fit",
+      "theme_terms": ["Kogasa", "Touhou", "Gensokyo", "umbrella", "karakasa", "spell card"],
+      "character_anchor": "Kogasa seeks meaningful surprise, learns when a scare fails, and also possesses practical blacksmithing craft.",
+      "swap_character": "Seija",
+      "swap_anchor": "Seija overturns a load-bearing assumption, constructs a falsifiable inverted alternative, and reconciles rebellion with evidence.",
+      "expected_artifact": "A reproducible minimal counterexample with an independent oracle, then a deterministic regression test and proof that it discriminates broken from acceptable behavior, explicitly handed back without taking over the wider decision.",
+      "operator_deltas": ["evidence set", "task artifact", "scope boundary"]
+    }
+  ]
+}

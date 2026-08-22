@@ -46,6 +46,9 @@ Assisted-by: Aya (gensokyo-skills:aya-source-investigation)
 Assisted-by: Nitori (gensokyo-skills:nitori-reverse-engineering)
 Assisted-by: Eiki (gensokyo-skills:eiki-rule-review)
 Assisted-by: Seija (gensokyo-skills:seija-assumption-inversion)
+Assisted-by: Kogasa (gensokyo-skills:kogasa-surprise-testing)
+Assisted-by: Suika (gensokyo-skills:suika-scatter-gather-planning)
+Assisted-by: Sakuya (gensokyo-skills:sakuya-checkpointed-execution)
 ```
 
 Never attribute this utility skill to itself. Preserve first material-use order and emit each qualifying character once.

@@ -42,11 +42,25 @@ class FakeResponsesHandler(BaseHTTPRequestHandler):
         schema_name = format_config.get("name")
 
         if schema_name == "skill_routing":
+            router_input = json.loads(payload["input"])
+            selected_skill = (
+                "none"
+                if "one sentence in README.md" in router_input["user_request"]
+                else "reimu-incident-triage"
+            )
             body = {
-                "selected_skill": "reimu-incident-triage",
+                "selected_skill": selected_skill,
                 "confidence": "high",
-                "reason": "The request describes a noisy production regression and asks for recovery.",
-                "decisive_description_phrase": "regressions, outages, flaky failures",
+                "reason": (
+                    "The requested machinery is disproportionate to a low-risk documentation edit."
+                    if selected_skill == "none"
+                    else "The request describes a noisy production regression and asks for recovery."
+                ),
+                "decisive_description_phrase": (
+                    "low-risk implementation with no meaningful state transition"
+                    if selected_skill == "none"
+                    else "regressions, outages, flaky failures"
+                ),
             }
         elif schema_name == "quality_judgment":
             judge_input = json.loads(payload["input"])
@@ -90,6 +104,16 @@ class FakeResponsesHandler(BaseHTTPRequestHandler):
                 "pairwise_distinct": True,
                 "collisions": [],
                 "summary": "Each answer changes a different decision artifact.",
+            }
+        elif schema_name == "admission_judgment":
+            body = {
+                "deletion_test": {"passed": True, "evidence": "The stripped procedure remains executable."},
+                "swap_test": {"passed": True, "evidence": "The original anchor explains the operator sequence better."},
+                "operator_test": {"passed": True, "evidence": "Every operator changes an allowed state or artifact."},
+                "artifact_test": {"passed": True, "evidence": "The output contract names a distinct artifact."},
+                "bias_test": {"passed": True, "evidence": "The skill names its overreach and countercheck."},
+                "score": 4,
+                "summary": "The skill passes all admission tests.",
             }
         else:
             body = "SKILLED candidate output" if "<agent_skill>" in payload["instructions"] else "BASELINE candidate output"
@@ -143,6 +167,17 @@ class EvalModelTests(unittest.TestCase):
             artifact = json.loads(output.read_text(encoding="utf-8"))
         return completed, artifact
 
+    def test_list_all_includes_admission_cases(self) -> None:
+        completed = subprocess.run(
+            [sys.executable, str(SCRIPT), "list", "--kind", "all", "--skill", "kogasa-surprise-testing"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("admission/kogasa-surprise-testing/surprise-forge-fit", completed.stdout)
+
     def test_routing_uses_structured_output_and_exact_match(self) -> None:
         completed, artifact = self.run_eval(
             "--kind",
@@ -157,6 +192,18 @@ class EvalModelTests(unittest.TestCase):
         self.assertFalse(request["store"])
         self.assertEqual(request["text"]["format"]["type"], "json_schema")
         self.assertTrue(request["text"]["format"]["strict"])
+
+    def test_routing_accepts_explicit_none_near_miss(self) -> None:
+        completed, artifact = self.run_eval(
+            "--kind",
+            "routing",
+            "--case",
+            "routing/sakuya-checkpointed-execution/near-miss/5",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(artifact["summary"]["passed"], 1)
+        self.assertEqual(artifact["cases"][0]["expected"], "none")
+        self.assertEqual(artifact["cases"][0]["selected"], "none")
 
     def test_quality_runs_blinded_baseline_skill_and_judge(self) -> None:
         completed, artifact = self.run_eval(
@@ -205,6 +252,46 @@ class EvalModelTests(unittest.TestCase):
             {"reimu-incident-triage", "yukari-boundary-analysis"},
         )
         self.assertTrue(artifact["cases"][0]["judgment"]["pairwise_distinct"])
+
+    def test_contrast_incident_can_define_a_nearest_neighbor_subset(self) -> None:
+        completed, artifact = self.run_eval(
+            "--kind",
+            "contrast",
+            "--case",
+            "offline-client-key-rotation",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(artifact["summary"]["passed"], 1)
+        self.assertEqual(len(FakeResponsesHandler.requests), 4)
+        self.assertEqual(
+            set(artifact["cases"][0]["expected_moves"]),
+            {
+                "sakuya-checkpointed-execution",
+                "suika-scatter-gather-planning",
+                "yukari-boundary-analysis",
+            },
+        )
+
+    def test_admission_strips_theme_and_runs_one_structured_judge(self) -> None:
+        completed, artifact = self.run_eval(
+            "--kind",
+            "admission",
+            "--skill",
+            "kogasa-surprise-testing",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(artifact["summary"]["passed"], 1)
+        self.assertEqual(len(FakeResponsesHandler.requests), 1)
+        request = FakeResponsesHandler.requests[0]
+        self.assertEqual(request["text"]["format"]["name"], "admission_judgment")
+        judge_input = json.loads(request["input"])
+        self.assertNotIn("Kogasa", judge_input["theme_stripped_skill"])
+        self.assertNotIn("Closed Umbrella", judge_input["theme_stripped_skill"])
+        self.assertIn("Fix the expectation", judge_input["theme_stripped_skill"])
+        self.assertEqual(
+            set(artifact["cases"][0]["diagnostics"]["criterion_passes"]),
+            {"deletion_test", "swap_test", "operator_test", "artifact_test", "bias_test"},
+        )
 
 
 if __name__ == "__main__":

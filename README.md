@@ -22,14 +22,19 @@ This is an unofficial fan-made project inspired by Touhou Project, created by Te
 | “The artifact works, but nobody knows how.” | Nitori / 河城にとり | [`nitori-reverse-engineering`](skills/nitori-reverse-engineering/) | Preserve, probe one variable, reconstruct, predict. |
 | “Which rule applies, and what remedy is proportionate?” | Eiki / 四季映姫 | [`eiki-rule-review`](skills/eiki-rule-review/) | Establish authority, weigh testimony, judge each element, leave a correction path. |
 | “What if the premise everyone protects is backwards?” | Seija / 鬼人正邪 | [`seija-assumption-inversion`](skills/seija-assumption-inversion/) | Invert one load-bearing assumption and follow the fallout. |
+| “The happy path passes. What plausible surprise would break its promise?” | Kogasa / 多々良小傘 | [`kogasa-surprise-testing`](skills/kogasa-surprise-testing/) | Expose one genuine counterexample and forge it into a regression guard. |
+| “Several agents can help, but their work still has to merge.” | Suika / 伊吹萃香 | [`suika-scatter-gather-planning`](skills/suika-scatter-gather-planning/) | Define the whole, scatter across honest seams, gather through a merge contract. |
+| “This live change needs checkpoints, gates, and a rollback we can actually trust.” | Sakuya / 十六夜咲夜 | [`sakuya-checkpointed-execution`](skills/sakuya-checkpointed-execution/) | Sequence state transitions, admit irreversibility, verify every interval. |
 
-The first four established the design language. The second wave fills demonstrated capability gaps: sourcing, mechanism reconstruction, rule-governed judgment, and adversarial reframing. More characters still arrive only when they add a decision the existing cast cannot.
+The first four established the design language. The second wave added sourcing, mechanism reconstruction, rule-governed judgment, and adversarial reframing. The third adds counterexample-to-regression testing, parallel work recombination, and checkpointed execution. More characters still arrive only when they add a decision the existing cast cannot.
 
 ## Install
 
 ### Agent Skills CLI
 
 The recommended cross-agent route uses the npm-delivered [`skills` CLI](https://github.com/vercel-labs/skills). The skills themselves are fetched from this GitHub repository; there is no separate `gensokyo-skills` npm package to install. The current CLI requires Node.js 22.20 or newer.
+
+Browse the indexed collection on [skills.sh](https://skills.sh/N0zoM1z0/gensokyo-skills). The public page can lag a newly merged release briefly; the CLI command below is the direct discovery check against the repository's current default branch.
 
 Inspect all available skills without installing:
 
@@ -59,6 +64,12 @@ Replace the skill name with another caller, or use `--skill '*'` to install the 
 npx skills use N0zoM1z0/gensokyo-skills@reimu-incident-triage
 ```
 
+Refresh globally installed skills later with:
+
+```bash
+npx skills update --global
+```
+
 ### ChatGPT and Codex plugin
 
 The repository root is also a skills-only OpenAI plugin. Add its Git-backed marketplace, then install the bundle:
@@ -68,7 +79,7 @@ codex plugin marketplace add N0zoM1z0/gensokyo-skills
 codex plugin add gensokyo-skills@gensokyo-skills
 ```
 
-Start a new thread after installation so the eight character workflows and commit-attribution utility are available. Upgrade the marketplace snapshot later with `codex plugin marketplace upgrade gensokyo-skills`.
+Start a new thread after installation so the eleven character workflows and commit-attribution utility are available. Upgrade the marketplace snapshot later with `codex plugin marketplace upgrade gensokyo-skills`.
 
 Each runtime package contains its own `SKILL.md`, UI metadata, provenance note, worked example, and eval cases. Manual copying remains possible, but the commands above preserve source tracking and update workflows.
 
@@ -83,6 +94,9 @@ Use $aya-source-investigation to verify whether these articles share one weak so
 Use $nitori-reverse-engineering to infer this binary format from controlled samples.
 Use $eiki-rule-review to review this action against the governing policy.
 Use $seija-assumption-inversion to reverse the premise holding this design in place.
+Use $kogasa-surprise-testing to turn one contract-breaking surprise into a regression test.
+Use $suika-scatter-gather-planning to split this deliverable into mergeable work packets.
+Use $sakuya-checkpointed-execution to write a gated runbook for this risky state transition.
 Use $gensokyo-commit-attribution when these workflows materially shaped a commit.
 ```
 
@@ -99,7 +113,7 @@ Assisted-by: Nitori (gensokyo-skills:nitori-reverse-engineering)
 Assisted-by: Yukari (gensokyo-skills:yukari-boundary-analysis)
 ```
 
-The utility is deliberately strict: installing, mentioning, or merely loading a skill earns no attribution. A character must have been applied, materially useful, and represented in the staged commit. `Assisted-by` records workflow provenance; it does not claim human or co-author status.
+The utility recognizes all eleven character skills, including Kogasa, Suika, and Sakuya. It is deliberately strict: installing, mentioning, or merely loading a skill earns no attribution. A character must have been applied, materially useful, and represented in the staged commit. `Assisted-by` records workflow provenance; it does not claim human or co-author status.
 
 ## Why this is more than a theme pack
 
@@ -133,6 +147,9 @@ Aya     evidence       █████   tempo          █████   explor
 Nitori  exploration    ████    evidence       ████    intervention   ████
 Eiki    evidence       █████   convergence    █████   adversarial    ███
 Seija   adversarial    █████   exploration    █████   abstraction    ████
+Kogasa  evidence       █████   intervention   █████   adversarial    ████
+Suika   convergence    ████    tempo          ████    abstraction    ███
+Sakuya  convergence    █████   evidence       █████   intervention   ████
 ```
 
 Fingerprints help choose contrast pairs and expose accidental overlap; native skill routing still comes from each `SKILL.md` description.
@@ -165,6 +182,7 @@ Then inspect or run the model eval suite:
 ```bash
 python3 scripts/eval_model.py list --kind all
 python3 scripts/eval_model.py dry-run --kind quality
+python3 scripts/eval_model.py dry-run --kind admission --skill kogasa-surprise-testing
 # With OPENAI_API_KEY set:
 python3 scripts/eval_model.py run --kind routing
 ```

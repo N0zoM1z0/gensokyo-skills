@@ -1,0 +1,102 @@
+{
+  "skill": "suika-scatter-gather-planning",
+  "should_trigger": [
+    {
+      "prompt": "Split this cross-package refactor among three coding agents. Give each one non-overlapping ownership, a return artifact, and a merge order.",
+      "reason": "A bounded deliverable has real parallel seams and needs explicit recombination contracts."
+    },
+    {
+      "prompt": "Five contributors need to produce one evidence-backed report. Design independent research packets and a gathering contract so the synthesis does not become merge chaos.",
+      "reason": "Parallel contributors need bounded evidence outputs and one integrated acceptance standard."
+    },
+    {
+      "prompt": "This migration touches the server, two SDKs, docs, and fixtures. Decide what can proceed in parallel and what must remain centrally owned.",
+      "reason": "Multi-artifact work requires a dependency map, ownership seams, and staged gathering."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "Our one-page internal tool somehow has Kafka, Redis, and six workers. Strip it to the smallest complete design.",
+      "preferred_skill": "cirno-radical-simplification"
+    },
+    {
+      "prompt": "The producer and consumer work alone but disagree on retries and ownership. Trace the failing interface.",
+      "preferred_skill": "yukari-boundary-analysis"
+    },
+    {
+      "prompt": "Write a safe, sequential runbook for a live schema cutover with checkpoints and rollback gates.",
+      "preferred_skill": "sakuya-checkpointed-execution"
+    },
+    {
+      "prompt": "We do not know whether this library works at all. Build the smallest experiment before planning a full integration.",
+      "preferred_skill": "marisa-rapid-prototyping"
+    },
+    {
+      "prompt": "Split a twenty-minute spelling correction in one Markdown file among five agents with status packets and a merge sequence.",
+      "preferred_skill": "none"
+    }
+  ],
+  "quality_cases": [
+    {
+      "id": "three-worker-api-rename",
+      "prompt": "Plan a public field rename across a server, TypeScript SDK, Python SDK, generated fixtures, docs, and end-to-end tests. Three contributors may work concurrently. The old field must remain accepted for one release. Return a plan, not code.",
+      "must_show": [
+        "a whole-state contract with compatibility invariants and one integrated acceptance test before decomposition",
+        "a dependency map that separates interface-defining work, independent leaves, shared state, and an indivisible core",
+        "bounded work packets with inputs, owned scope, forbidden overlap, exact outputs, evidence, dependencies, and return conditions",
+        "one owner and conflict rule for the shared schema and generated fixtures",
+        "a dependency-ordered gathering sequence ending in external end-to-end verification",
+        "a merge-tax countercheck that rejects or recombines at least one unjustified split"
+      ],
+      "must_avoid": [
+        "generic workstreams with overlapping ownership or no merge contract",
+        "assuming that locally passing packets prove the integrated deliverable"
+      ]
+    },
+    {
+      "id": "three-worker-token-hardening",
+      "prompt": "Plan a security hardening release across authentication middleware, a TypeScript SDK, a Python SDK, documentation, and cross-version tests. Three contributors can work concurrently. All artifacts share a token-version and expiry contract, and the old token format must remain accepted for one release. Return a plan, not code.",
+      "must_show": [
+        "a canonical token-version and expiry contract plus one cross-version integrated acceptance matrix before decomposition",
+        "a dependency map that keeps shared contract and fixture authority centralized while exposing independent implementation seams",
+        "three bounded work packets with owned scope, forbidden overlap, exact evidence, dependencies, and return conditions",
+        "one conflict authority for shared token semantics and generated fixtures",
+        "a dependency-ordered merge sequence ending in middleware-to-SDK external-path verification",
+        "a merge-tax judgment that keeps tightly coupled shared-contract or final-synthesis work together"
+      ],
+      "must_avoid": [
+        "letting SDK or middleware owners independently redefine token version or expiry semantics",
+        "treating local package tests as proof of cross-version compatibility"
+      ]
+    },
+    {
+      "id": "four-contributor-localization-release",
+      "prompt": "Plan one localization release covering a shared base message catalog, one ICU placeholder schema, Japanese and Spanish locale packs, generated snapshots, and release notes. Four contributors are available, but the base catalog and placeholder schema are tightly coupled and must have one authority. Define only honest parallel packets, exact return evidence, merge order, and integrated acceptance; do not invent work merely to occupy everyone.",
+      "must_show": [
+        "a whole-release contract with message, placeholder, locale, snapshot, and release-note invariants before decomposition",
+        "one indivisible authority for the base catalog and ICU placeholder schema",
+        "only independently reviewable packets with owned scope, forbidden overlap, exact artifacts, evidence, dependencies, and return conditions",
+        "explicit invalidation and conflict rules when the frozen catalog or schema changes",
+        "dependency-ordered gathering through merged snapshots and release-note fact checking",
+        "a concrete external consumer or rendered runtime check for both locales",
+        "a merge-tax judgment that justifies every retained packet without manufacturing work from contributor count"
+      ],
+      "must_avoid": [
+        "independent edits to the shared catalog and placeholder contract",
+        "treating validators or snapshots alone as proof of the lived localization result",
+        "status-only or speculative packets created merely to occupy an available contributor"
+      ]
+    }
+  ],
+  "admission_cases": [
+    {
+      "id": "scatter-gather-fit",
+      "theme_terms": ["Suika", "Touhou", "Gensokyo", "oni", "feast", "spell card"],
+      "character_anchor": "Suika manipulates density and sparseness, gathers scattered people into one event, and values direct promises.",
+      "swap_character": "Cirno",
+      "swap_anchor": "Cirno freezes the required outcome, strips a design to a tiny complete baseline, stress-tests the first crack, and adds complexity back only when earned.",
+      "expected_artifact": "A whole-state contract, dependency graph, independently verifiable work packets, gathering contract, merge order, integrated acceptance test, and merge-tax judgment.",
+      "operator_deltas": ["scope boundary", "task artifact", "agent state", "candidate decision"]
+    }
+  ]
+}
