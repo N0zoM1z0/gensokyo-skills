@@ -21,7 +21,7 @@ jobs:
       - name: Verify standard Agent Skills discovery
         env:
           DISABLE_TELEMETRY: "1"
-        run: npx --yes skills@1.5.22 add . --list
+        run: npx --yes skills@1.5.23 add . --list
       - name: Test model-eval transport and scoring
         run: python3 -m unittest discover -s tests -v
       - name: Compile and resolve eval manifests

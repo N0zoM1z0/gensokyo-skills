@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sakuya: Checkpointed Execution"
+  short_description: "Sequence risky work with checkpoints and real rollback"
+  default_prompt: "Use $sakuya-checkpointed-execution to turn this risky operation into a checkpointed, verifiable runbook."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Suika: Scatter-Gather Planning"
+  short_description: "Split work cleanly and gather it without merge chaos"
+  default_prompt: "Use $suika-scatter-gather-planning to divide this work into independent packets with a safe gathering plan."

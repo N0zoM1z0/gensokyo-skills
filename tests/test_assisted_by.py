@@ -42,6 +42,22 @@ class AssistedByUnitTests(unittest.TestCase):
             with self.subTest(skill_id=skill_id), self.assertRaises(ValueError):
                 MODULE.canonical_trailers([skill_id])
 
+    def test_renders_third_wave_characters(self) -> None:
+        self.assertEqual(
+            MODULE.canonical_trailers(
+                [
+                    "kogasa-surprise-testing",
+                    "suika-scatter-gather-planning",
+                    "sakuya-checkpointed-execution",
+                ]
+            ),
+            [
+                "Assisted-by: Kogasa (gensokyo-skills:kogasa-surprise-testing)",
+                "Assisted-by: Suika (gensokyo-skills:suika-scatter-gather-planning)",
+                "Assisted-by: Sakuya (gensokyo-skills:sakuya-checkpointed-execution)",
+            ],
+        )
+
     def test_appends_new_block_and_is_idempotent(self) -> None:
         trailers = MODULE.canonical_trailers(
             ["nitori-reverse-engineering", "yukari-boundary-analysis"]

@@ -1,0 +1,101 @@
+{
+  "skill": "sakuya-checkpointed-execution",
+  "should_trigger": [
+    {
+      "prompt": "Write a zero-downtime database migration runbook with observable checkpoints, abort conditions, and an honest rollback matrix.",
+      "reason": "A risky ordered state transition needs checkpoints and explicit recovery semantics."
+    },
+    {
+      "prompt": "Plan the production cutover from the old payment provider to the new one. Some customer charges cannot be undone, so define go/no-go gates.",
+      "reason": "The operation contains compensatable and irreversible effects requiring authority gates."
+    },
+    {
+      "prompt": "Sequence this encryption-key rotation across readers and writers, including compatibility windows, stop conditions, and end-to-end verification.",
+      "reason": "A multi-stage live operation must preserve compatibility and stop at verified checkpoints."
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "prompt": "The deployment already caused intermittent failures and we do not know why. Isolate the actual incident and recover service.",
+      "preferred_skill": "reimu-incident-triage"
+    },
+    {
+      "prompt": "Divide this refactor among four agents with owned files, return artifacts, and a merge order.",
+      "preferred_skill": "suika-scatter-gather-planning"
+    },
+    {
+      "prompt": "These services disagree about event ownership and retry semantics. Map and test the crossing contract.",
+      "preferred_skill": "yukari-boundary-analysis"
+    },
+    {
+      "prompt": "Before we plan a rollout, prove whether the proposed database tool can handle our largest table.",
+      "preferred_skill": "marisa-rapid-prototyping"
+    },
+    {
+      "prompt": "Write an executive-gated, minute-by-minute, two-day production runbook for changing one sentence in README.md on a feature branch.",
+      "preferred_skill": "none"
+    }
+  ],
+  "quality_cases": [
+    {
+      "id": "hundred-million-row-cutover",
+      "prompt": "Write a plan-only runbook to add a required region column to a 100-million-row customer table without downtime. Old and new application versions will overlap for one release. Backups exist, but restore time has never been measured. Do not perform any actions.",
+      "must_show": [
+        "a timestamped current-to-target state model with invariants, compatibility window, and global abort conditions",
+        "dependency-ordered transitions with a precondition, observable success signal, time bound, owner, and failure path for each consequential step",
+        "checkpoints that classify actions as reversible, compensatable, or irreversible and state recovery limits",
+        "a go or no-go gate before constraint enforcement with named authority and fresh evidence",
+        "end-to-end verification through the original external path and at least one relevant operating interval",
+        "a time-reality countercheck that challenges the unmeasured backup restore assumption"
+      ],
+      "must_avoid": [
+        "claiming that a backup, down migration, Git revert, or retained binary proves timely rollback",
+        "performing or claiming to perform the requested production operation"
+      ]
+    },
+    {
+      "id": "offline-client-signing-key-rotation",
+      "prompt": "Write a plan-only runbook to rotate signing keys across two issuers, three verifier services, and offline clients. Old and new keys must overlap for 48 hours. Publishing a key is reversible, but revoking the old key can strand offline clients. Define observable checkpoints, stop conditions, recovery limits, and who authorizes revocation. Do not perform any action.",
+      "must_show": [
+        "a timestamped dual-key current-to-target state model with compatibility invariants and global abort conditions",
+        "dependency ordering that distributes trust before new signing, observes the overlap, then gates old-key revocation",
+        "observable checkpoints with preconditions, time windows, owners, success signals, and failure paths",
+        "an honest distinction between reversible publication, compensatable transition effects, and revocation that may strand offline clients",
+        "fresh usage and offline-client evidence plus named authority at the last safe abort point before revocation",
+        "verification through issuer and verifier paths over the full compatibility interval with an execution-record template"
+      ],
+      "must_avoid": [
+        "claiming that republishing configuration automatically recovers already stranded offline clients",
+        "performing or claiming to perform the key rotation"
+      ]
+    },
+    {
+      "id": "irreversible-retention-purge",
+      "prompt": "Write a plan-only runbook for a legally approved retention purge of expired customer export files from primary object storage, a search index, and caches. Primary deletion is irreversible; backups expire after 30 days and cannot be selectively edited. The legal owner must authorize the last destructive gate, and purge durations vary with volume. Reject false five-minute precision, define real checkpoints and recovery limits, and do not execute anything.",
+      "must_show": [
+        "a timestamped current-to-target state model with retention invariants, exact scope, and global abort conditions",
+        "measured observation windows instead of an invented minute-by-minute schedule",
+        "dependency-ordered object-store, index, and cache transitions with preconditions, owners, signals, windows, and failure paths",
+        "an honest recovery matrix that treats primary deletion as irreversible and backup expiry as residual retention rather than selective rollback",
+        "fresh deletion manifest and system evidence plus named legal authority at the last destructive gate",
+        "a plan-only execution record and external verification of absence and non-recreation over a relevant operating interval"
+      ],
+      "must_avoid": [
+        "claiming exact timing without measured volume and throughput evidence",
+        "presenting backups as a selective recovery path for irreversibly deleted primary objects",
+        "performing or claiming to perform the retention purge"
+      ]
+    }
+  ],
+  "admission_cases": [
+    {
+      "id": "checkpointed-time-fit",
+      "theme_terms": ["Sakuya", "Touhou", "Gensokyo", "maid", "knife", "clock", "time stop", "spell card"],
+      "character_anchor": "Sakuya manipulates time, acts with exact sequencing and precision, and maintains a complex household through chosen responsibility.",
+      "swap_character": "Reimu",
+      "swap_anchor": "Reimu isolates an active abnormal condition, chooses the smallest reversible recovery, verifies normality, and stops.",
+      "expected_artifact": "A dependency-ordered runbook with observable checkpoints, a recovery classification, explicit irreversible go or no-go gates, an execution record, and final end-to-end verification.",
+      "operator_deltas": ["agent state", "task artifact", "candidate decision", "evidence set"]
+    }
+  ]
+}

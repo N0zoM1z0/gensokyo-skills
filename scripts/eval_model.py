@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 import random
+import re
 import sys
 import tempfile
 import time
@@ -54,6 +55,15 @@ decision processes. For every skill, copy its id exactly, test its annotated exp
 decision shape, and score execution from 0 to 4. Different vocabulary with the same plan is a collision.
 Set pairwise_distinct true only when every response contributes a materially different evidence request, artifact,
 scope change, decision, or stopping rule. Return the required structured judgment and no extra commentary."""
+
+ADMISSION_JUDGE_INSTRUCTIONS = """Evaluate an Agent Skill against five design-admission tests.
+The deletion test sees a mechanically theme-stripped workflow: pass only when it remains a precise, useful procedure
+with a concrete completion condition. The swap test compares the procedure itself against the original and alternate
+character anchors: pass only when the original fits materially better for reasons beyond names or decorative lore.
+The operator test passes only when the named steps change the supplied artifact, evidence, state, decision, or scope.
+The artifact test passes only when the output is concrete and meaningfully distinct from generic advice.
+The bias test passes only when a characteristic overreach and an operational countercheck are both present.
+Score overall execution from 0 to 4. Return the required structured judgment and no extra commentary."""
 
 
 class EvalError(RuntimeError):
@@ -160,6 +170,28 @@ def quality_cases(skills: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     return cases
 
 
+def admission_cases(skills: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    cases: list[dict[str, Any]] = []
+    for skill_id, skill in skills.items():
+        for index, case in enumerate(skill["cases"].get("admission_cases", []), start=1):
+            case_name = case.get("id") or str(index)
+            cases.append(
+                {
+                    "id": f"admission/{skill_id}/{case_name}",
+                    "kind": "admission",
+                    "skill": skill_id,
+                    "prompt": f"Audit {skill_id} against the design admission tests.",
+                    "theme_terms": case["theme_terms"],
+                    "character_anchor": case["character_anchor"],
+                    "swap_character": case["swap_character"],
+                    "swap_anchor": case["swap_anchor"],
+                    "expected_artifact": case["expected_artifact"],
+                    "operator_deltas": case["operator_deltas"],
+                }
+            )
+    return cases
+
+
 def contrast_cases(_skills: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     data = read_json(ROOT / "evals/contrast-incidents.json")
     return [
@@ -178,9 +210,11 @@ def load_cases(kind: str, skills: dict[str, dict[str, Any]]) -> list[dict[str, A
         return routing_cases(skills)
     if kind == "quality":
         return quality_cases(skills)
+    if kind == "admission":
+        return admission_cases(skills)
     if kind == "contrast":
         return contrast_cases(skills)
-    return routing_cases(skills) + quality_cases(skills) + contrast_cases(skills)
+    return routing_cases(skills) + quality_cases(skills) + admission_cases(skills) + contrast_cases(skills)
 
 
 def filter_cases(
@@ -279,6 +313,26 @@ def contrast_schema() -> dict[str, Any]:
             "reviews": {"type": "array", "items": review},
             "pairwise_distinct": {"type": "boolean"},
             "collisions": {"type": "array", "items": collision},
+            "summary": {"type": "string"},
+        }
+    )
+
+
+def admission_schema() -> dict[str, Any]:
+    criterion = strict_object(
+        {
+            "passed": {"type": "boolean"},
+            "evidence": {"type": "string"},
+        }
+    )
+    return strict_object(
+        {
+            "deletion_test": criterion,
+            "swap_test": criterion,
+            "operator_test": criterion,
+            "artifact_test": criterion,
+            "bias_test": criterion,
+            "score": {"type": "integer"},
             "summary": {"type": "string"},
         }
     )
@@ -392,6 +446,33 @@ def deterministic_order(labels: list[str], case_id: str, seed: str) -> list[str]
     ordered = list(labels)
     random.Random(digest).shuffle(ordered)
     return ordered
+
+
+def strip_theme(skill_text: str, theme_terms: list[str]) -> str:
+    """Remove routing metadata and character labels for the deletion admission test."""
+
+    body = skill_text
+    if body.startswith("---\n"):
+        parts = body.split("---\n", 2)
+        if len(parts) == 3:
+            body = parts[2]
+
+    stripped: list[str] = []
+    for line in body.splitlines():
+        if line.strip() == "## References":
+            break
+        if line.startswith("# "):
+            stripped.append("# Workflow")
+            continue
+        if line.startswith("Treat the character framing as a mnemonic"):
+            continue
+        operator = re.match(r"^(###)\s+.+?\s+—\s+(.+)$", line)
+        if operator:
+            line = f"{operator.group(1)} {operator.group(2)}"
+        for term in sorted(theme_terms, key=len, reverse=True):
+            line = re.sub(re.escape(term), "[theme]", line, flags=re.IGNORECASE)
+        stripped.append(line)
+    return "\n".join(stripped).strip() + "\n"
 
 
 def candidate_response(
@@ -617,6 +698,69 @@ def run_contrast_case(
     }
 
 
+def run_admission_case(
+    client: ResponsesClient, case: dict[str, Any], skills: dict[str, dict[str, Any]], config: dict[str, Any]
+) -> dict[str, Any]:
+    skill = skills[case["skill"]]
+    stripped = strip_theme(skill["text"], case["theme_terms"])
+    judge_input = json.dumps(
+        {
+            "skill": case["skill"],
+            "original_skill": skill["text"],
+            "theme_stripped_skill": stripped,
+            "character_anchor": case["character_anchor"],
+            "swap_character": case["swap_character"],
+            "swap_anchor": case["swap_anchor"],
+            "expected_artifact": case["expected_artifact"],
+            "allowed_operator_deltas": case["operator_deltas"],
+        },
+        ensure_ascii=False,
+        indent=2,
+    )
+    judgment, judge_response = client.generate_json(
+        model=config["judge_model"],
+        instructions=ADMISSION_JUDGE_INSTRUCTIONS,
+        input_text=judge_input,
+        reasoning_effort=config["judge_reasoning_effort"],
+        verbosity=config["judge_verbosity"],
+        max_output_tokens=config["judge_max_output_tokens"],
+        metadata={"eval_case": case["id"][:64], "eval_condition": "admission-judge"},
+        schema_name="admission_judgment",
+        schema=admission_schema(),
+    )
+    criteria = (
+        "deletion_test",
+        "swap_test",
+        "operator_test",
+        "artifact_test",
+        "bias_test",
+    )
+    criterion_passes = {
+        criterion: isinstance(judgment.get(criterion), dict)
+        and judgment[criterion].get("passed") is True
+        and bool(judgment[criterion].get("evidence"))
+        for criterion in criteria
+    }
+    score = judgment.get("score", -1)
+    passed = (
+        all(criterion_passes.values())
+        and isinstance(score, int)
+        and config["admission_min_score"] <= score <= 4
+    )
+    return {
+        "id": case["id"],
+        "kind": "admission",
+        "skill": case["skill"],
+        "swap_character": case["swap_character"],
+        "expected_artifact": case["expected_artifact"],
+        "theme_stripped_skill": stripped,
+        "judgment": judgment,
+        "judge_response": {key: value for key, value in judge_response.items() if key != "text"},
+        "diagnostics": {"criterion_passes": criterion_passes, "score": score},
+        "passed": passed,
+    }
+
+
 def count_requests(cases: list[dict[str, Any]]) -> int:
     total = 0
     for case in cases:
@@ -624,6 +768,8 @@ def count_requests(cases: list[dict[str, Any]]) -> int:
             total += 1
         elif case["kind"] == "quality":
             total += 3
+        elif case["kind"] == "admission":
+            total += 1
         elif case["kind"] == "contrast":
             total += len(case["expected_moves"]) + 1
     return total
@@ -721,6 +867,8 @@ def run_command(args: argparse.Namespace, dry_run: bool) -> int:
                 result = run_routing_case(client, case, skills, config)
             elif case["kind"] == "quality":
                 result = run_quality_case(client, case, skills, config)
+            elif case["kind"] == "admission":
+                result = run_admission_case(client, case, skills, config)
             else:
                 result = run_contrast_case(client, case, skills, config)
         except Exception as exc:  # Keep the run artifact even when one case fails.
@@ -763,7 +911,7 @@ def run_command(args: argparse.Namespace, dry_run: bool) -> int:
 
 
 def add_common_run_arguments(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--kind", choices=["routing", "quality", "contrast"], required=True)
+    parser.add_argument("--kind", choices=["routing", "quality", "admission", "contrast"], required=True)
     parser.add_argument("--config", default=str(DEFAULT_CONFIG))
     parser.add_argument("--case", action="append", default=[], help="Case-id substring; repeatable")
     parser.add_argument("--skill", action="append", default=[], help="Skill id filter; repeatable")
@@ -780,7 +928,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     list_parser = subparsers.add_parser("list", help="List discovered cases without calling a model")
-    list_parser.add_argument("--kind", choices=["all", "routing", "quality", "contrast"], default="all")
+    list_parser.add_argument("--kind", choices=["all", "routing", "quality", "admission", "contrast"], default="all")
     list_parser.add_argument("--skill", action="append", default=[])
 
     dry_parser = subparsers.add_parser("dry-run", help="Resolve cases and request count without calling a model")

@@ -36,6 +36,8 @@ Replace the mapped character with another. If the procedure still fits unchanged
 
 Aya must verify claims through source lineage; Nitori must reconstruct hidden mechanisms through controlled probes; Eiki must apply an authoritative rule with proportional remedy; Seija must invert one load-bearing premise and reconcile the result with evidence.
 
+Kogasa must produce a genuine behavioral surprise and forge it into a regression guard; Suika must scatter a defined whole across independent seams and gather it through explicit contracts; Sakuya must advance risky state transitions through observable checkpoints while admitting irreversibility.
+
 ### Operator test
 
 Every named operator must change at least one of:

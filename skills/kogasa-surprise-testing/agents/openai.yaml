@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kogasa: Surprise Testing"
+  short_description: "Turn genuine surprises into durable regression tests"
+  default_prompt: "Use $kogasa-surprise-testing to find a contract-breaking surprise and forge it into a regression test."

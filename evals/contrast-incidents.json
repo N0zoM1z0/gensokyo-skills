@@ -13,7 +13,10 @@
         "aya-source-investigation": "Verify when the failures began and which log or change records support each causal claim.",
         "nitori-reverse-engineering": "Reconstruct the worker/database interaction from controlled traces and competing race hypotheses.",
         "eiki-rule-review": "Establish the CI isolation and correctness contract, then judge which guarantee is violated and how to correct it.",
-        "seija-assumption-inversion": "Invert the premise that parallel execution is necessary and test a counterexample that preserves the actual CI goal."
+        "seija-assumption-inversion": "Invert the premise that parallel execution is necessary and test a counterexample that preserves the actual CI goal.",
+        "kogasa-surprise-testing": "Vary one plausible concurrency or cleanup condition, prove the smallest database-isolation surprise, and forge it into a deterministic regression test.",
+        "suika-scatter-gather-planning": "Treat workers as scattered packets, assign non-overlapping fixture namespaces and evidence outputs, then define how results gather into one CI verdict.",
+        "sakuya-checkpointed-execution": "After the failure is bounded, sequence any return to serial and reactivation of parallel workers through observable checkpoints and abort conditions."
       }
     },
     {
@@ -27,7 +30,10 @@
         "aya-source-investigation": "Verify the speed, reliability, and operating-cost claims against dated metrics rather than team impressions.",
         "nitori-reverse-engineering": "Reconstruct the actual request and state mechanism across the split from traces and failure probes.",
         "eiki-rule-review": "Compare the decomposition against governing SLOs and architecture rules before assigning a conformance judgment.",
-        "seija-assumption-inversion": "Invert the premise that independent deployment requires these service boundaries and trace the alternative."
+        "seija-assumption-inversion": "Invert the premise that independent deployment requires these service boundaries and trace the alternative.",
+        "kogasa-surprise-testing": "Choose one service promise, inject a plausible partial failure or retry, and preserve the smallest cross-service counterexample as a regression.",
+        "suika-scatter-gather-planning": "Re-establish the product as one whole, identify which service seams are genuinely independent, and define a gathering contract for the retained parts.",
+        "sakuya-checkpointed-execution": "Turn any service consolidation or routing cutover into dependency-ordered transitions with compatibility checkpoints and an honest recovery matrix."
       }
     },
     {
@@ -41,7 +47,10 @@
         "aya-source-investigation": "Find the closest format and version sources, then separate vendor claims from observed compatibility evidence.",
         "nitori-reverse-engineering": "Use differential samples to infer the format, transformation mechanism, and a predictive parser model.",
         "eiki-rule-review": "Establish the controlling format or vendor contract and test each import against its required elements.",
-        "seija-assumption-inversion": "Invert the assumption that both vendor transformations preserve meaning and test which dependency collapses."
+        "seija-assumption-inversion": "Invert the assumption that both vendor transformations preserve meaning and test which dependency collapses.",
+        "kogasa-surprise-testing": "Select a plausible byte, length, ordering, or version variation, minimize the import failure, and encode it as a round-trip regression fixture.",
+        "suika-scatter-gather-planning": "Split format sampling, vendor transformation analysis, and importer validation into owned packets with one shared sample schema and merge order.",
+        "sakuya-checkpointed-execution": "Decline mechanism inference and, only for a planned importer rollout, define version checkpoints, compatibility gates, and abort conditions."
       }
     },
     {
@@ -55,7 +64,10 @@
         "aya-source-investigation": "Trace each claimed need for the queue, cache, engine, and mesh to evidence or an authoritative constraint.",
         "nitori-reverse-engineering": "Decline to invent a mechanism before an artifact exists and inventory the real interfaces that must be understood.",
         "eiki-rule-review": "Separate mandatory compliance or specification requirements from architectural preference before judging the proposal.",
-        "seija-assumption-inversion": "Expose and invert the consensus's load-bearing premise, then build the strongest falsifiable alternative."
+        "seija-assumption-inversion": "Expose and invert the consensus's load-bearing premise, then build the strongest falsifiable alternative.",
+        "kogasa-surprise-testing": "Require a runnable contract before testing; do not manufacture a regression for architecture components that do not yet exist.",
+        "suika-scatter-gather-planning": "Define the internal tool as one deliverable, then admit parallel packets only where independent outputs and a gathering contract can be named.",
+        "sakuya-checkpointed-execution": "Decline runbook framing because no risky state transition or target sequence has been selected yet."
       }
     },
     {
@@ -69,7 +81,10 @@
         "aya-source-investigation": "Trace repeated coverage to its origin, inspect the actual study, and calibrate a source-backed verdict.",
         "nitori-reverse-engineering": "Decline unsupported mechanism claims and identify what artifact access would permit behavioral reconstruction.",
         "eiki-rule-review": "Identify the advertising or evaluation standard before judging whether the public claim conforms.",
-        "seija-assumption-inversion": "Invert the premise that benchmark superiority implies workflow superiority and construct a falsifiable counterexample."
+        "seija-assumption-inversion": "Invert the premise that benchmark superiority implies workflow superiority and construct a falsifiable counterexample.",
+        "kogasa-surprise-testing": "Define a real-work behavioral promise and a plausible counterexample input, but do not claim a regression without runnable access and an oracle.",
+        "suika-scatter-gather-planning": "If a team evaluates the claim, assign independent benchmark, workflow, and source packets with one comparison schema and synthesis owner.",
+        "sakuya-checkpointed-execution": "Decline checkpointed execution because the request asks for claim evaluation, not a risky operational transition."
       }
     },
     {
@@ -83,7 +98,10 @@
         "aya-source-investigation": "Find authoritative filings, manuals, firmware notes, and version dates without treating forum repetition as proof.",
         "nitori-reverse-engineering": "Inventory captures, form competing state-machine hypotheses, run differential probes, and build a predictive replica.",
         "eiki-rule-review": "Establish license and authorization limits before judging which inspection and interoperability actions are permitted.",
-        "seija-assumption-inversion": "Invert the assumption that one stable protocol exists across firmware and test version-specific mechanisms."
+        "seija-assumption-inversion": "Invert the assumption that one stable protocol exists across firmware and test version-specific mechanisms.",
+        "kogasa-surprise-testing": "Use one plausible packet, timing, or firmware variation to expose a minimal interoperability surprise and retain it as a versioned regression capture.",
+        "suika-scatter-gather-planning": "Scatter firmware sampling and state-machine probes into non-overlapping packets that return to one canonical trace schema and integration model.",
+        "sakuya-checkpointed-execution": "Separate protocol reconstruction from rollout; if firmware deployment is planned, gate it with capture checkpoints, abort conditions, and verified recovery limits."
       }
     },
     {
@@ -97,7 +115,10 @@
         "aya-source-investigation": "Verify the timeline and evidence of exposure, reporting, access, and rotation before summarizing the event.",
         "nitori-reverse-engineering": "Reconstruct the logging path and filtering mechanism only as needed to explain how the credential escaped.",
         "eiki-rule-review": "Apply the controlling rule element by element, grade harm and mitigation, and recommend a proportionate corrective path.",
-        "seija-assumption-inversion": "Challenge the premise that harsher individual punishment is the best recurrence control while preserving accountability."
+        "seija-assumption-inversion": "Challenge the premise that harsher individual punishment is the best recurrence control while preserving accountability.",
+        "kogasa-surprise-testing": "Turn the concrete secret-escape path into a safe regression for redaction or secret scanning, with an oracle that detects exposure without using a live credential.",
+        "suika-scatter-gather-planning": "Only for the remediation program, assign containment, policy review, and prevention packets with one owner for the final accountable outcome.",
+        "sakuya-checkpointed-execution": "Sequence credential rotation, invalidation, service reloads, and verification through time-bounded checkpoints without claiming the old secret can be unexposed."
       }
     },
     {
@@ -111,7 +132,88 @@
         "aya-source-investigation": "Verify each claimed analytic requirement and privacy constraint against primary stakeholders and policies.",
         "nitori-reverse-engineering": "Inspect the existing data pipeline and reconstruct which transformations truly require raw central data.",
         "eiki-rule-review": "Apply data-governance, deletion, access, and audit rules before judging the permissible design.",
-        "seija-assumption-inversion": "Invert raw-data centralization while preserving one query surface, then trace and test the resulting design."
+        "seija-assumption-inversion": "Invert raw-data centralization while preserving one query surface, then trace and test the resulting design.",
+        "kogasa-surprise-testing": "Probe one credible deletion, replica, or stale-cache condition that violates the data-lifecycle promise and forge it into a governance regression test.",
+        "suika-scatter-gather-planning": "Define the unified query result as the whole, scatter data ownership where independence is real, and specify how governed aggregates gather without raw centralization.",
+        "sakuya-checkpointed-execution": "If the design changes, sequence data backfill, dual-read compatibility, traffic cutover, and deletion through checkpointed migration gates."
+      }
+    },
+    {
+      "id": "duplicate-webhook",
+      "prompt": "A payment webhook passes normal tests but may be delivered twice after a response timeout. We need confidence before release.",
+      "expected_moves": {
+        "reimu-incident-triage": "Decline incident recovery unless duplicate delivery has produced an observed abnormal state; if it has, bound impact and restore idempotent behavior.",
+        "marisa-rapid-prototyping": "Build the smallest handler spike that compares one delivery with a duplicated delivery and records whether the approach is feasible.",
+        "cirno-radical-simplification": "Reduce the handler to receipt, idempotency key, and one state transition, then make every extra queue or lock justify itself.",
+        "yukari-boundary-analysis": "Trace the provider-to-handler acknowledgement and event-ownership boundary, including the timeout and retry contract.",
+        "aya-source-investigation": "Verify the provider's documented retry and acknowledgement behavior against authoritative, versioned sources.",
+        "nitori-reverse-engineering": "From controlled traces, reconstruct commit, acknowledgement, retry, and deduplication order as a predictive state machine.",
+        "eiki-rule-review": "Establish the payment correctness and audit requirements, then judge whether duplicate effects violate each controlling rule.",
+        "seija-assumption-inversion": "Invert the assumption that delivery is effectively once and test an at-least-once design while preserving exactly-once effects.",
+        "kogasa-surprise-testing": "Cause one safe duplicate-after-commit surprise, forge a deterministic regression with an independent one-effect oracle, then hand the wider release decision back to its owner.",
+        "suika-scatter-gather-planning": "If multiple workers implement the release, split provider simulation, idempotency storage, and end-to-end verification under one event-contract owner.",
+        "sakuya-checkpointed-execution": "For release, gate activation on idempotency evidence, canary duplicate probes, abort thresholds, and a verified disable or roll-forward path."
+      }
+    },
+    {
+      "id": "parallel-api-rename",
+      "prompt": "Three contributors must rename a public field across a server, two SDKs, generated fixtures, docs, and end-to-end tests while preserving one release of compatibility.",
+      "expected_moves": {
+        "reimu-incident-triage": "Decline incident framing because no abnormal state exists; require a concrete regression before recovery work.",
+        "marisa-rapid-prototyping": "Prototype the riskiest compatibility path through one server and one SDK before expanding the rename.",
+        "cirno-radical-simplification": "Freeze the compatibility outcome and challenge whether every generated layer or alias is necessary.",
+        "yukari-boundary-analysis": "Map field representation, version, ownership, and compatibility contracts at each server, SDK, fixture, and documentation crossing.",
+        "aya-source-investigation": "Verify the actual consumers, compatibility promise, and deprecation date against primary usage and release evidence.",
+        "nitori-reverse-engineering": "Inspect code generation and serialization flows to reconstruct how one schema change propagates through every artifact.",
+        "eiki-rule-review": "Apply the governing compatibility and semantic-versioning rules before judging the allowable rename path.",
+        "seija-assumption-inversion": "Invert the premise that the public rename must happen on every surface at once and test an alias-first alternative.",
+        "kogasa-surprise-testing": "Probe mixed-version, missing-field, and alias-conflict behavior, then retain one contract-breaking case as a regression fixture.",
+        "suika-scatter-gather-planning": "Define the compatibility whole, make the shared schema one owned dependency, issue non-overlapping implementation packets, and gather them through end-to-end acceptance.",
+        "sakuya-checkpointed-execution": "Sequence schema, dual-compatible readers and writers, release gates, and alias cleanup across a verified compatibility window."
+      }
+    },
+    {
+      "id": "live-schema-cutover",
+      "prompt": "Add a required column to a 100-million-row live table with overlapping application versions; backups exist but restore time is unknown.",
+      "expected_moves": {
+        "reimu-incident-triage": "Decline incident framing unless an active migration failure exists; if it does, isolate the first bad transition and recover the affected path.",
+        "marisa-rapid-prototyping": "Benchmark the riskiest backfill or lock behavior on representative scale before committing to the migration.",
+        "cirno-radical-simplification": "Reduce the migration to the smallest compatibility sequence and force every shadow table, queue, or framework to earn its place.",
+        "yukari-boundary-analysis": "Map old and new reader, writer, schema, replica, and backfill contracts across the compatibility boundary.",
+        "aya-source-investigation": "Verify database-version behavior, operational limits, and restore claims against authoritative documentation and measured records.",
+        "nitori-reverse-engineering": "Inspect the database and application behavior to reconstruct locking, replication, and mixed-version mechanisms before planning around them.",
+        "eiki-rule-review": "Apply availability, retention, change-control, and data-integrity requirements to each proposed migration step.",
+        "seija-assumption-inversion": "Invert the premise that a new non-null constraint is the only way to protect the required domain invariant and test alternatives.",
+        "kogasa-surprise-testing": "Probe interruption, mixed writer, and partial-backfill states, then forge the most consequential contract violation into a migration regression.",
+        "suika-scatter-gather-planning": "If several contributors prepare the change, split schema, application compatibility, observability, and verification packets under one migration contract.",
+        "sakuya-checkpointed-execution": "Produce the dependency-ordered runbook, classify real recovery limits, gate irreversible constraint enforcement, and verify the lived external path."
+      }
+    },
+    {
+      "id": "unicode-normalization-regression",
+      "prompt": "A CSV importer promises to reject duplicate headers after documented normalization. ASCII fixtures pass, but a customer reports compatibility-form Unicode collisions; no reproduction exists yet, and the release decision remains with its owner.",
+      "expected_moves": {
+        "kogasa-surprise-testing": "Derive an oracle independently of the importer, minimize one compatibility-form collision, and forge a maintained deterministic regression before handing the release decision back.",
+        "seija-assumption-inversion": "State and invert the premise that the documented and implemented normalization preserve the same equivalence classes, then reconcile a falsifiable counterexample with evidence.",
+        "marisa-rapid-prototyping": "Define the release question, propose the smallest timeboxed runnable normalization experiment, record the absent result honestly, and return a proceed, modify, stop, or inconclusive rule plus prototype debt."
+      }
+    },
+    {
+      "id": "token-hardening-release",
+      "prompt": "A security release spans authentication middleware, two SDKs, documentation, and cross-version tests. Three contributors are available, the old token format remains accepted for one release, and token-version and expiry semantics have drifted.",
+      "expected_moves": {
+        "suika-scatter-gather-planning": "Freeze one token contract, issue non-overlapping owned packets, centralize shared semantics, and gather through a cross-version external acceptance test with a merge-tax judgment.",
+        "cirno-radical-simplification": "Reduce the release to at most three necessary moving parts, expose the first compatibility or security constraint that breaks the baseline, and add only earned complexity.",
+        "yukari-boundary-analysis": "Map token representations and owners, write the version and expiry contract, trace one token across middleware and SDK crossings, and repair the smallest failing boundary."
+      }
+    },
+    {
+      "id": "offline-client-key-rotation",
+      "prompt": "Two issuers, three verifier services, and offline clients must rotate signing keys with a 48-hour overlap. Publishing the new key is reversible, revoking the old key may strand offline clients, several teams participate, and no incident is active.",
+      "expected_moves": {
+        "sakuya-checkpointed-execution": "Produce the dependency-ordered live runbook, observable windows, recovery classification, fresh-evidence revocation gate, execution record, and external-path verification.",
+        "suika-scatter-gather-planning": "Split issuer, verifier, and offline-client readiness into owned evidence packets, centralize revocation authority, and gather without taking over the live sequence.",
+        "yukari-boundary-analysis": "Map issuer, verifier, distribution, cache, and offline-client trust boundaries; trace key and token lifecycle edges; and repair the smallest retirement-readiness contract."
       }
     }
   ]

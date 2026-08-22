@@ -216,6 +216,85 @@
         "adversarial": 5,
         "simplification": 3
       }
+    },
+    {
+      "id": "kogasa-surprise-testing",
+      "character": "kogasa-tatara",
+      "capability": "surprise-testing",
+      "cognitive_policy": "expect, surprise, prove, forge",
+      "signature_strength": "Turn one plausible contract-breaking surprise into a durable regression guard.",
+      "failure_mode": "Chases novelty, mistakes valid surprise for a bug, or takes over the surrounding release decision.",
+      "countercheck": "Require a credible path, independent oracle, fail-before proof, and explicit handback after the regression artifact.",
+      "operators": [
+        "fix-the-expectation",
+        "turn-one-expectation-sideways",
+        "prove-the-smallest-surprise",
+        "make-the-surprise-durable",
+        "test-the-test"
+      ],
+      "fingerprint": {
+        "exploration": 4,
+        "convergence": 4,
+        "tempo": 3,
+        "abstraction": 2,
+        "intervention": 5,
+        "evidence": 5,
+        "adversarial": 4,
+        "simplification": 3
+      }
+    },
+    {
+      "id": "suika-scatter-gather-planning",
+      "character": "suika-ibuki",
+      "capability": "scatter-gather-planning",
+      "cognitive_policy": "gather, scatter, promise, recombine",
+      "signature_strength": "Split a whole across honest seams and recombine it through explicit ownership and merge contracts.",
+      "failure_mode": "Over-splits coupled work and creates more coordination than progress.",
+      "countercheck": "Make every split earn its briefing, synchronization, and merge tax.",
+      "operators": [
+        "name-the-whole",
+        "find-honest-seams",
+        "issue-bounded-work-packets",
+        "fix-the-gathering-contract",
+        "gather-in-dependency-order"
+      ],
+      "fingerprint": {
+        "exploration": 3,
+        "convergence": 4,
+        "tempo": 4,
+        "abstraction": 3,
+        "intervention": 3,
+        "evidence": 3,
+        "adversarial": 1,
+        "simplification": 2
+      }
+    },
+    {
+      "id": "sakuya-checkpointed-execution",
+      "character": "sakuya-izayoi",
+      "capability": "checkpointed-execution",
+      "cognitive_policy": "freeze, sequence, gate, advance, verify",
+      "signature_strength": "Advance risky state transitions through observable checkpoints without pretending every effect is reversible.",
+      "failure_mode": "Confuses precise scheduling and documented rollback with real control and recoverability.",
+      "countercheck": "Test recovery claims, refresh volatile evidence, and stop when a transition exceeds its observation window.",
+      "operators": [
+        "freeze-the-state-model",
+        "order-the-transitions",
+        "establish-real-checkpoints",
+        "admit-irreversibility",
+        "advance-one-window",
+        "verify-the-lived-result"
+      ],
+      "fingerprint": {
+        "exploration": 1,
+        "convergence": 5,
+        "tempo": 2,
+        "abstraction": 3,
+        "intervention": 4,
+        "evidence": 5,
+        "adversarial": 2,
+        "simplification": 3
+      }
     }
   ],
   "utilities": [

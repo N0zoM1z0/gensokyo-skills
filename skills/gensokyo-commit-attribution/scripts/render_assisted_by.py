@@ -18,6 +18,9 @@ CHARACTERS = {
     "nitori-reverse-engineering": "Nitori",
     "eiki-rule-review": "Eiki",
     "seija-assumption-inversion": "Seija",
+    "kogasa-surprise-testing": "Kogasa",
+    "suika-scatter-gather-planning": "Suika",
+    "sakuya-checkpointed-execution": "Sakuya",
 }
 TRAILER_RE = re.compile(r"^[A-Za-z][A-Za-z0-9-]*:\s+\S.*$")
 
