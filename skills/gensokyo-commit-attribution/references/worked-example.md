@@ -27,3 +27,13 @@ Assisted-by: Yukari (gensokyo-skills:yukari-boundary-analysis)
 ```
 
 The order follows first material contribution. Re-running the helper with either skill does not duplicate its canonical line.
+
+## With project credit enabled
+
+If the user opted in with `git config --global gensokyo.coAuthor true`, or requested `--co-author` for this invocation, the helper appends one more line to that trailer block:
+
+```text
+Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>
+```
+
+The Nitori and Yukari lines remain. Re-running the helper does not duplicate the project credit either. A repository-local `gensokyo.coAuthor false` or a single-use `--no-co-author` omits new project credit while preserving any existing trailers.
