@@ -83,6 +83,24 @@ Start a new thread after installation so the eleven character workflows and comm
 
 Each runtime package contains its own `SKILL.md`, UI metadata, provenance note, worked example, and eval cases. Manual copying remains possible, but the commands above preserve source tracking and update workflows.
 
+### Optional project co-author credit
+
+Both installation routes default to `Assisted-by` only. To opt in during installation, include `gensokyo-commit-attribution` with your character skills and enable the Git preference after a successful install. For example, install the full roster for Codex with project credit enabled:
+
+```bash
+npx skills add N0zoM1z0/gensokyo-skills \
+  --skill '*' --agent codex --global --yes && \
+  git config --global gensokyo.coAuthor true
+```
+
+For the plugin route or an existing installation, run `git config --global gensokyo.coAuthor true`. This preference survives skill updates. It adds this trailer alongside qualifying `Assisted-by` lines:
+
+```text
+Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>
+```
+
+Run `git config --global gensokyo.coAuthor false` to return to assistance-only credit. Use `git config --local gensokyo.coAuthor true` or `false` inside a repository to override the global choice there. The bundled helper also accepts `--co-author` or `--no-co-author` for a single commit; neither option changes the saved preference or removes existing trailers. No project credit is added when no character workflow qualifies.
+
 Invoke explicitly when you want a particular cognitive policy:
 
 ```text
@@ -113,7 +131,7 @@ Assisted-by: Nitori (gensokyo-skills:nitori-reverse-engineering)
 Assisted-by: Yukari (gensokyo-skills:yukari-boundary-analysis)
 ```
 
-The utility recognizes all eleven character skills, including Kogasa, Suika, and Sakuya. It is deliberately strict: installing, mentioning, or merely loading a skill earns no attribution. A character must have been applied, materially useful, and represented in the staged commit. `Assisted-by` records workflow provenance; it does not claim human or co-author status.
+The utility recognizes all eleven character skills, including Kogasa, Suika, and Sakuya. It is deliberately strict: installing, mentioning, or merely loading a skill earns no attribution. A character must have been applied, materially useful, and represented in the staged commit. `Assisted-by` records workflow provenance; the optional `Co-authored-by` trailer separately credits the Gensokyo Skills project account.
 
 ## Why this is more than a theme pack
 

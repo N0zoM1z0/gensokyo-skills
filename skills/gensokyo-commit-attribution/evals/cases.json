@@ -43,6 +43,34 @@
         "crediting every loaded or mentioned skill",
         "rewriting commit history without explicit authorization"
       ]
+    },
+    {
+      "id": "project-coauthor-opt-in",
+      "prompt": "Prepare the commit message for the staged parser fix. Nitori's controlled probes determined the retained parser rule. I enabled gensokyo.coAuthor globally when installing the skills; the target repository has no local override. Keep the ordinary subject and body and apply my saved attribution preference.",
+      "must_show": [
+        "one canonical Assisted-by trailer for Nitori's material staged contribution",
+        "one Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com> trailer alongside the character credit",
+        "the saved Git preference is read from the target repository or the helper is run there",
+        "existing subject, body, and unrelated trailers are preserved"
+      ],
+      "must_avoid": [
+        "replacing Assisted-by with project co-author credit",
+        "duplicating an existing project co-author trailer",
+        "changing persistent preferences without a user request"
+      ]
+    },
+    {
+      "id": "project-coauthor-local-opt-out",
+      "prompt": "Prepare the commit message for the staged incident fix. Reimu's triage caused the retained rollback guard. My global gensokyo.coAuthor setting is true, but this target repository sets gensokyo.coAuthor to false. The draft has no project co-author credit. Follow the repository preference.",
+      "must_show": [
+        "one canonical Assisted-by trailer for Reimu's material staged contribution",
+        "repository-local false overrides the global co-author opt-in",
+        "no gensokyo-dev Co-authored-by trailer is added"
+      ],
+      "must_avoid": [
+        "ignoring the repository-local opt-out",
+        "changing Git configuration to re-enable project credit"
+      ]
     }
   ]
 }

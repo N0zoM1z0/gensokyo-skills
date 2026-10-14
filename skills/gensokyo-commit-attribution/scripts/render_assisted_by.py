@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Render or append canonical Gensokyo Assisted-by commit trailers."""
+"""Render Gensokyo assistance trailers with optional project co-author credit."""
 
 from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -23,9 +24,13 @@ CHARACTERS = {
     "sakuya-checkpointed-execution": "Sakuya",
 }
 TRAILER_RE = re.compile(r"^[A-Za-z][A-Za-z0-9-]*:\s+\S.*$")
+CO_AUTHOR_CONFIG = "gensokyo.coAuthor"
+CO_AUTHOR_TRAILER = (
+    "Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>"
+)
 
 
-def canonical_trailers(skill_ids: list[str]) -> list[str]:
+def canonical_trailers(skill_ids: list[str], *, co_author: bool = False) -> list[str]:
     """Return de-duplicated trailers in first-seen order."""
 
     trailers: list[str] = []
@@ -40,7 +45,27 @@ def canonical_trailers(skill_ids: list[str]) -> list[str]:
         trailers.append(
             f"Assisted-by: {CHARACTERS[skill_id]} (gensokyo-skills:{skill_id})"
         )
+    if co_author and trailers:
+        trailers.append(CO_AUTHOR_TRAILER)
     return trailers
+
+
+def co_author_enabled(repo: Path | None = None) -> bool:
+    """Read the effective Git preference; an unset preference defaults to off."""
+
+    command = ["git"]
+    if repo is not None:
+        command.extend(["-C", str(repo)])
+    command.extend(["config", "--bool", "--get", CO_AUTHOR_CONFIG])
+    try:
+        result = subprocess.run(command, text=True, capture_output=True)
+    except OSError as exc:
+        raise ValueError(f"cannot read {CO_AUTHOR_CONFIG}: {exc}") from exc
+    if result.returncode == 1:
+        return False
+    if result.returncode != 0:
+        raise ValueError(f"cannot read {CO_AUTHOR_CONFIG}: {result.stderr.strip()}")
+    return result.stdout.strip() == "true"
 
 
 def append_to_message(message: str, trailers: list[str]) -> str:
@@ -72,21 +97,47 @@ def append_to_message(message: str, trailers: list[str]) -> str:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Render canonical Assisted-by trailers for materially used Gensokyo skills."
+        description="Render Assisted-by trailers with optional gensokyo-dev co-author credit."
     )
     parser.add_argument(
         "--message-file",
         type=Path,
         help="append missing trailers to this existing commit-message file",
     )
+    parser.add_argument(
+        "--repo",
+        type=Path,
+        help="read Git preferences from this repository (default: current directory)",
+    )
+    co_author = parser.add_mutually_exclusive_group()
+    co_author.add_argument(
+        "--co-author",
+        dest="co_author",
+        action="store_const",
+        const=True,
+        default=None,
+        help=f"include gensokyo-dev co-author credit for this invocation, overriding {CO_AUTHOR_CONFIG}",
+    )
+    co_author.add_argument(
+        "--no-co-author",
+        dest="co_author",
+        action="store_const",
+        const=False,
+        help=f"omit gensokyo-dev co-author credit for this invocation, overriding {CO_AUTHOR_CONFIG}",
+    )
     parser.add_argument("skill", nargs="+", help="qualifying character skill id")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = parse_args(argv or sys.argv[1:])
+    args = parse_args(sys.argv[1:] if argv is None else argv)
     try:
-        trailers = canonical_trailers(args.skill)
+        co_author = (
+            args.co_author
+            if args.co_author is not None
+            else co_author_enabled(args.repo)
+        )
+        trailers = canonical_trailers(args.skill, co_author=co_author)
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2

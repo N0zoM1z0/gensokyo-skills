@@ -1,6 +1,6 @@
 ---
 name: gensokyo-commit-attribution
-description: Append truthful Assisted-by trailers when preparing, creating, or explicitly amending a Git commit whose staged changes were materially shaped by one or more Gensokyo character skills. Use for commit-message construction after a character workflow changed the commit's artifact, evidence, or decision. Do not use for merely installed, mentioned, or loaded skills; analysis that did not affect the staged diff; non-Gensokyo assistance; or work with no commit.
+description: Append truthful Assisted-by trailers and optional configured project co-author credit when preparing, creating, or explicitly amending a Git commit whose staged changes were materially shaped by Gensokyo character skills. Use for commit-message construction after a character workflow changed the commit's artifact, evidence, or decision. Do not use for merely installed, mentioned, or loaded skills; analysis that did not affect the staged diff; non-Gensokyo assistance; or work with no commit.
 ---
 
 # Gensokyo Commit Attribution
@@ -16,7 +16,7 @@ Add one canonical `Assisted-by` trailer for each Gensokyo character skill that m
 - Operate on the commit currently being prepared and its staged diff.
 - Do not stage unrelated files to create attribution evidence.
 - Do not amend, rebase, or otherwise rewrite an existing commit unless the user explicitly asks.
-- Treat `Assisted-by` as workflow provenance, not human authorship. Never substitute `Co-authored-by`.
+- Treat `Assisted-by` as workflow provenance. Keep these trailers when adding the optional project `Co-authored-by` credit; never claim that a character is a human co-author.
 - Obey an explicit repository or user commit-message policy when it conflicts with this optional attribution convention.
 
 ## Evidence gate
@@ -53,6 +53,26 @@ Assisted-by: Sakuya (gensokyo-skills:sakuya-checkpointed-execution)
 
 Never attribute this utility skill to itself. Preserve first material-use order and emit each qualifying character once.
 
+## Optional project co-author
+
+The default is `Assisted-by` only. Users can opt in during installation or later:
+
+```bash
+git config --global gensokyo.coAuthor true
+```
+
+The helper then adds one additional trailer after the qualifying character trailers:
+
+```text
+Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>
+```
+
+This credits the Gensokyo Skills project account; it does not replace character workflow provenance. The same evidence gate still applies: if no character qualifies, add neither character trailers nor project credit.
+
+`git config --local gensokyo.coAuthor false` disables project credit in the current repository, overriding a global opt-in. Set it to `true` to enable it for that repository only. `--co-author` and `--no-co-author` override the preference for one helper invocation, including an explicit user request for that commit. Do not change persistent preferences without a user request.
+
+Run the helper from the repository being committed, or pass `--repo /path/to/repository`, so its local Git preference is respected. An absent preference means off; an invalid preference must be corrected or explicitly overridden before editing the message.
+
 ## Procedure
 
 1. Inspect `git status --short` and the staged diff. Confirm the intended commit scope before constructing the message.
@@ -65,6 +85,8 @@ Never attribute this utility skill to itself. Preserve first material-use order 
      nitori-reverse-engineering yukari-boundary-analysis
    ```
 
+   The helper reads `gensokyo.coAuthor` automatically. Pass `--co-author` or `--no-co-author` when the user explicitly requests a different choice for this commit.
+
    To add missing canonical trailers idempotently to an existing message file:
 
    ```bash
@@ -75,7 +97,7 @@ Never attribute this utility skill to itself. Preserve first material-use order 
 
 5. Put exactly one blank line between the commit body and a new trailer block. Preserve unrelated existing trailers and do not duplicate canonical lines.
 6. Create the commit using the complete message. If the user explicitly requested an amend, preserve the existing subject and body unless they requested other message changes.
-7. Verify with `git log -1 --format=%B` and confirm that every included trailer passed the evidence gate and every eligible character appears once.
+7. Verify with `git log -1 --format=%B` and confirm that every eligible character appears once, the evidence gate was satisfied, and project co-author credit matches the user's effective preference without duplication.
 
 ## Output contract
 
@@ -83,6 +105,7 @@ When reporting the commit, state:
 
 - the resulting commit identifier and subject;
 - which `Assisted-by` trailers were added, if any;
+- whether the optional project `Co-authored-by` trailer was added;
 - one short material-contribution reason per attributed character;
 - that no trailer was added when no character passed the evidence gate.
 
